@@ -1,0 +1,3010 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>VenueVista | Hall Booking</title>
+
+<style>
+
+/* =========================
+   THEME
+========================= */
+
+:root{
+    --navy:#07111f;
+    --navy2:#0d1b2a;
+    --gold:#d6a84f;
+    --gold2:#f2ca72;
+    --cream:#f1ead8;
+    --wood:#875528;
+    --chair:#24374b;
+    --green:#55b987;
+    --red:#df6b6b;
+    --muted:#9daaba;
+}
+
+
+/* =========================
+   BASIC
+========================= */
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:
+        radial-gradient(
+            circle at top,
+            #17304a,
+            #07111f 65%
+        );
+    color:white;
+    min-height:100vh;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    padding:20px 5%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid rgba(214,168,79,.25);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:42px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    background:var(--gold);
+    color:var(--navy);
+    border-radius:10px;
+    font-weight:bold;
+    font-size:20px;
+}
+
+.brand h1{
+    margin:0;
+    font-size:22px;
+}
+
+.brand span{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    letter-spacing:1px;
+    margin-top:3px;
+}
+
+.admin-link{
+    color:var(--gold2);
+    text-decoration:none;
+    border:1px solid rgba(214,168,79,.4);
+    padding:10px 16px;
+    border-radius:8px;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+main{
+    width:92%;
+    max-width:1500px;
+    margin:30px auto 70px;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.hero h2{
+    margin:0;
+    font-size:44px;
+    color:var(--gold2);
+}
+
+.hero p{
+    color:var(--muted);
+    font-size:17px;
+}
+
+
+/* =========================
+   BOOKING CARD
+========================= */
+
+.booking-card{
+    background:rgba(13,27,42,.97);
+    border:1px solid rgba(214,168,79,.3);
+    border-radius:20px;
+    padding:28px;
+    box-shadow:0 25px 60px rgba(0,0,0,.35);
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.field label{
+    color:var(--gold2);
+    font-size:13px;
+    font-weight:bold;
+}
+
+.field input,
+.field select{
+    width:100%;
+    height:48px;
+    padding:0 14px;
+    background:#081522;
+    color:white;
+    border:1px solid #41505f;
+    border-radius:9px;
+    font-size:15px;
+    outline:none;
+}
+
+.field input:focus,
+.field select:focus{
+    border-color:var(--gold);
+    box-shadow:0 0 0 2px rgba(214,168,79,.12);
+}
+
+
+/* =========================
+   REMOVE NUMBER ARROWS
+========================= */
+
+input[type=number]{
+    appearance:textfield;
+    -moz-appearance:textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{
+    -webkit-appearance:none;
+    margin:0;
+}
+
+
+/* =========================
+   DATE
+========================= */
+
+.date-row{
+    display:grid;
+    grid-template-columns:.7fr 1.5fr 1fr;
+    gap:7px;
+}
+
+.date-select{
+    height:48px;
+    padding:0 8px;
+    background:#081522;
+    color:white;
+    border:1px solid #41505f;
+    border-radius:9px;
+    font-size:14px;
+    cursor:pointer;
+    outline:none;
+}
+
+.date-select:focus{
+    border-color:var(--gold);
+}
+
+
+/* =========================
+   TIME
+========================= */
+
+.time-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+}
+
+.time-select{
+    cursor:pointer;
+}
+
+
+/* =========================
+   OPTIONS
+========================= */
+
+.options{
+    grid-column:1/-1;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin-top:5px;
+}
+
+.option-box{
+    padding:18px;
+    border:1px solid #394858;
+    border-radius:12px;
+}
+
+.option-box h3{
+    margin:0 0 12px;
+    color:var(--gold2);
+    font-size:14px;
+}
+
+.radio-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.radio-row input{
+    display:none;
+}
+
+.radio-row label{
+    padding:10px 15px;
+    border:1px solid #43515e;
+    border-radius:7px;
+    cursor:pointer;
+    color:#cbd3dc;
+}
+
+.radio-row input:checked + label{
+    background:var(--gold);
+    color:var(--navy);
+    border-color:var(--gold);
+    font-weight:bold;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+.check-btn{
+    grid-column:1/-1;
+    height:55px;
+    border:0;
+    border-radius:10px;
+    background:linear-gradient(
+        135deg,
+        #d6a84f,
+        #f0c66a
+    );
+    color:#07111f;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.check-btn:hover{
+    filter:brightness(1.08);
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+.message{
+    margin-top:15px;
+    padding:13px;
+    border-radius:8px;
+    display:none;
+    font-size:14px;
+}
+
+.message.show{
+    display:block;
+}
+
+.message.error{
+    color:#ffaaaa;
+    background:rgba(223,107,107,.12);
+    border:1px solid rgba(223,107,107,.2);
+}
+
+.message.success{
+    color:#8ee0b8;
+    background:rgba(85,185,135,.12);
+    border:1px solid rgba(85,185,135,.2);
+}
+
+
+/* =========================
+   FLOOR
+========================= */
+
+.floor-wrapper{
+    margin-top:55px;
+    scroll-margin-top:20px;
+}
+
+.floor-heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
+
+.floor-heading h2{
+    margin:0;
+    color:var(--gold2);
+    font-size:27px;
+}
+
+#layoutStatus{
+    color:var(--muted);
+    font-size:13px;
+}
+
+
+/* =========================
+   FLOOR
+========================= */
+
+.floor{
+    position:relative;
+    width:100%;
+    height:650px;
+    background-color:var(--cream);
+    border:8px solid #182839;
+    border-radius:18px;
+    overflow:hidden;
+
+    background-image:
+        linear-gradient(
+            rgba(100,80,50,.08) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(100,80,50,.08) 1px,
+            transparent 1px
+        );
+
+    background-size:28px 28px;
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.4),
+        0 0 0 2px rgba(214,168,79,.35);
+}
+
+
+/* =========================
+   FLOOR LABEL
+========================= */
+
+.floor-label{
+    position:absolute;
+    top:14px;
+    left:18px;
+    padding:7px 13px;
+    background:#182839;
+    color:var(--gold2);
+    border-radius:6px;
+    font-size:11px;
+    font-weight:bold;
+    letter-spacing:1px;
+    z-index:100;
+}
+
+
+/* =========================
+   ENTRANCE
+========================= */
+
+.entrance{
+    position:absolute;
+    bottom:-1px;
+    left:50%;
+    transform:translateX(-50%);
+    padding:12px 50px;
+    background:#0a1725;
+    color:var(--gold2);
+    border:2px solid var(--gold);
+    border-bottom:0;
+    border-radius:12px 12px 0 0;
+    font-size:12px;
+    font-weight:bold;
+    letter-spacing:1px;
+    z-index:100;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.table-group{
+    position:absolute;
+    width:110px;
+    height:110px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.table{
+    width:66px;
+    height:66px;
+    position:absolute;
+    z-index:5;
+
+    background:
+        linear-gradient(
+            145deg,
+            #b8783c,
+            #70431f
+        );
+
+    border:3px solid #4b2b16;
+
+    box-shadow:
+        0 8px 15px rgba(0,0,0,.35),
+        inset 0 2px 4px rgba(255,255,255,.2);
+}
+
+.table.square{
+    border-radius:8px;
+}
+
+.table.round{
+    border-radius:50%;
+}
+
+.table.rectangle{
+    width:86px;
+    height:55px;
+    border-radius:8px;
+}
+
+.table::after{
+    content:"";
+    position:absolute;
+    inset:8px;
+    border:1px solid rgba(255,210,130,.25);
+    border-radius:4px;
+}
+
+
+/* =========================
+   CHAIRS
+========================= */
+
+.chair{
+    position:absolute;
+    width:15px;
+    height:15px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #42586d,
+            #1b2c3d
+        );
+
+    border:1px solid #132130;
+    border-radius:4px;
+
+    box-shadow:
+        0 3px 5px rgba(0,0,0,.3);
+
+    z-index:4;
+}
+
+
+/* =========================
+   TABLE NUMBER
+========================= */
+
+.table-number{
+    position:absolute;
+    z-index:10;
+    color:#f6d28a;
+    font-size:9px;
+    font-weight:bold;
+    pointer-events:none;
+}
+
+
+/* =========================
+   DECORATIONS
+========================= */
+
+.decor{
+    position:absolute;
+    z-index:2;
+}
+
+
+/* PLANT */
+
+.plant{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:
+        radial-gradient(
+            circle,
+            #69a66b 0 35%,
+            transparent 36%
+        );
+
+    box-shadow:
+        20px 5px 0 -4px #528b57,
+        -15px 8px 0 -5px #72aa70;
+}
+
+.plant:after{
+    content:"";
+    position:absolute;
+    left:16px;
+    bottom:-10px;
+    width:20px;
+    height:18px;
+    background:#9b6639;
+    border-radius:3px 3px 8px 8px;
+}
+
+
+/* FLOWERS */
+
+.flower{
+    font-size:28px;
+}
+
+
+/* BUFFET */
+
+.buffet{
+    width:130px;
+    height:45px;
+    background:#24374a;
+    border:2px solid #42566b;
+    border-radius:7px;
+    color:#f2ca72;
+    display:grid;
+    place-items:center;
+    font-size:11px;
+    font-weight:bold;
+}
+
+
+/* STAGE */
+
+.stage{
+    width:180px;
+    height:55px;
+    background:
+        linear-gradient(
+            135deg,
+            #27384c,
+            #172536
+        );
+    border:2px solid #c39443;
+    border-radius:8px;
+    color:#f0c66a;
+    display:grid;
+    place-items:center;
+    font-size:12px;
+    font-weight:bold;
+}
+
+
+/* =========================
+   CONFIRM
+========================= */
+
+.confirm-area{
+    margin-top:20px;
+    padding:22px;
+    background:rgba(13,27,42,.96);
+    border:1px solid rgba(214,168,79,.3);
+    border-radius:14px;
+    text-align:center;
+}
+
+.confirm-area p{
+    margin:0 0 15px;
+    color:#c7d0da;
+    font-size:14px;
+}
+
+.confirm-btn{
+    width:100%;
+    height:52px;
+    border:0;
+    border-radius:9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #55b987,
+            #78d0a2
+        );
+
+    color:#07111f;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.confirm-btn:disabled{
+    background:#394858;
+    color:#8995a2;
+    cursor:not-allowed;
+}
+
+
+/* =========================
+   BOOKING INFO
+========================= */
+
+.booking-info{
+    display:none;
+    margin-top:20px;
+    padding:18px;
+    border:1px solid rgba(214,168,79,.3);
+    border-radius:12px;
+    background:#091725;
+}
+
+.booking-info.show{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.info span{
+    display:block;
+    color:var(--muted);
+    font-size:11px;
+    margin-bottom:4px;
+}
+
+.info strong{
+    color:var(--gold2);
+}
+
+
+/* =========================
+   LEGEND
+========================= */
+
+.legend{
+    margin-top:15px;
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    color:#d9d2c5;
+    font-size:13px;
+}
+
+.legend i{
+    display:inline-block;
+    width:14px;
+    height:14px;
+    border-radius:3px;
+    margin-right:5px;
+}
+
+.legend-table{
+    background:var(--wood);
+}
+
+.legend-chair{
+    background:var(--chair);
+}
+
+
+/* =========================
+   POPUP
+========================= */
+
+.popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.72);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+    padding:20px;
+}
+
+.popup.show{
+    display:flex;
+}
+
+.popup-box{
+    width:100%;
+    max-width:430px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #102033,
+            #07111f
+        );
+
+    border:1px solid rgba(214,168,79,.5);
+    border-radius:16px;
+    padding:28px;
+    text-align:center;
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.6);
+}
+
+.popup-icon{
+    width:58px;
+    height:58px;
+    margin:0 auto 15px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:rgba(223,107,107,.15);
+    color:#ff8d8d;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.popup-box h2{
+    margin:0 0 10px;
+    color:var(--gold2);
+    font-size:21px;
+}
+
+.popup-box p{
+    margin:0 0 20px;
+    color:#c6d0da;
+    line-height:1.5;
+    font-size:14px;
+}
+
+.popup-close{
+    width:100%;
+    height:44px;
+    border:0;
+    border-radius:8px;
+    background:var(--gold);
+    color:var(--navy);
+    font-weight:bold;
+    cursor:pointer;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:900px){
+
+    .form-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .booking-info.show{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+@media(max-width:600px){
+
+    header{
+        padding:18px;
+    }
+
+    .hero h2{
+        font-size:29px;
+    }
+
+    .form-grid,
+    .options{
+        grid-template-columns:1fr;
+    }
+
+    .booking-info.show{
+        grid-template-columns:1fr;
+    }
+
+    .floor{
+        height:560px;
+    }
+
+    .floor-heading{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:10px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="brand">
+
+<div class="logo">
+V
+</div>
+
+<div>
+
+<h1>VenueVista</h1>
+
+<span>
+Smart Venue Booking & Layout Management
+</span>
+
+</div>
+
+</div>
+
+
+<a
+    href="/status.html"
+    class="admin-link"
+>
+ My Booking
+</a>
+</header>
+
+
+<main>
+
+
+<section class="hero">
+
+<h2>
+Reserve Your Perfect Hall
+</h2>
+
+<p>
+Design and review your seating arrangement before confirming your booking.
+</p>
+
+</section>
+
+
+<section class="booking-card">
+
+
+<form id="bookingForm">
+
+
+<div class="form-grid">
+
+
+<!-- NAME -->
+
+<div class="field">
+
+<label>
+Customer Name
+</label>
+
+<input
+    type="text"
+    id="customerName"
+    placeholder="Enter your name"
+    required
+>
+
+</div>
+
+
+<!-- PHONE -->
+
+<div class="field">
+
+<label>
+Mobile Number
+</label>
+
+<input
+    type="tel"
+    id="phone"
+    placeholder="10 digit mobile number"
+    maxlength="10"
+    inputmode="numeric"
+    required
+>
+
+</div>
+
+
+<!-- DATE OF BIRTH (EXPERIMENT 3 EXTRA KEY) -->
+
+<div class="field">
+
+<label>
+Date of Birth
+</label>
+
+<input
+    type="date"
+    id="dateOfBirth"
+>
+
+</div>
+
+
+<!-- HALL -->
+
+<div class="field">
+
+<label>
+Hall Dimension
+</label>
+
+<select id="hallDimension">
+
+<option value="600x400">
+Classic: 600 × 400
+</option>
+
+<option value="800x600">
+Grand: 800 × 600
+</option>
+
+<option value="1000x700">
+Royal: 1000 × 700
+</option>
+
+</select>
+
+</div>
+
+
+<!-- TABLES -->
+
+<div class="field">
+
+<label>
+Number of Tables
+</label>
+
+<input
+    type="number"
+    id="tables"
+    min="1"
+    max="50"
+    value="6"
+    required
+>
+
+</div>
+
+
+<!-- CHAIRS -->
+
+<div class="field">
+
+<label>
+Chairs per Table
+</label>
+
+<input
+    type="number"
+    id="chairsPerTable"
+    min="1"
+    max="50"
+    value="4"
+    required
+>
+
+</div>
+
+
+<!-- DATE -->
+
+<div class="field">
+
+<label>
+Event Date
+</label>
+
+<div class="date-row">
+
+<select
+    id="day"
+    class="date-select"
+>
+</select>
+
+<select
+    id="month"
+    class="date-select"
+>
+</select>
+
+<select
+    id="year"
+    class="date-select"
+>
+</select>
+
+</div>
+
+</div>
+
+
+<!-- TIME -->
+
+<div class="field">
+
+<label>
+Event Time
+</label>
+
+<div class="time-row">
+
+<select
+    id="hour"
+    class="time-select"
+>
+</select>
+
+<select
+    id="minute"
+    class="time-select"
+>
+</select>
+
+</div>
+
+</div>
+
+
+<!-- OPTIONS -->
+
+<div class="options">
+
+
+<!-- SHAPE -->
+
+<div class="option-box">
+
+<h3>
+Table Shape
+</h3>
+
+<div class="radio-row">
+
+<input
+    type="radio"
+    id="square"
+    name="tableShape"
+    value="Square"
+    checked
+>
+
+<label for="square">
+Square
+</label>
+
+
+<input
+    type="radio"
+    id="round"
+    name="tableShape"
+    value="Round"
+>
+
+<label for="round">
+Round
+</label>
+
+
+<input
+    type="radio"
+    id="rectangle"
+    name="tableShape"
+    value="Rectangle"
+>
+
+<label for="rectangle">
+Rectangle
+</label>
+
+</div>
+
+</div>
+
+
+<!-- DESIGN -->
+
+<div class="option-box">
+
+<h3>
+Table Design
+</h3>
+
+<div class="radio-row">
+
+<input
+    type="radio"
+    id="classic"
+    name="tableDesign"
+    value="Classic"
+    checked
+>
+
+<label for="classic">
+Classic Wood
+</label>
+
+
+<input
+    type="radio"
+    id="luxury"
+    name="tableDesign"
+    value="Luxury"
+>
+
+<label for="luxury">
+Luxury
+</label>
+
+
+<input
+    type="radio"
+    id="modern"
+    name="tableDesign"
+    value="Modern"
+>
+
+<label for="modern">
+Modern
+</label>
+
+</div>
+
+</div>
+
+
+<!-- CHECK -->
+
+<button
+    type="button"
+    id="checkLayoutBtn"
+    class="check-btn"
+>
+Check Layout
+</button>
+
+</div>
+
+
+</div>
+
+
+<div
+    id="message"
+    class="message"
+></div>
+
+
+</form>
+
+</section>
+
+
+<!-- =========================
+     FLOOR
+========================= -->
+
+<section
+    class="floor-wrapper"
+    id="layoutSection"
+>
+
+
+<div class="floor-heading">
+
+<h2>
+Virtual Hall Layout
+</h2>
+
+<span id="layoutStatus">
+Enter details and check the layout.
+</span>
+
+</div>
+
+
+<div
+    class="floor"
+    id="floor"
+>
+
+
+
+
+
+<!-- DECORATIONS -->
+
+<div
+    class="decor plant"
+    style="top:25px;left:30px"
+></div>
+
+<div
+    class="decor plant"
+    style="top:25px;right:30px"
+></div>
+
+
+<div
+    class="decor flower"
+    style="top:80px;left:40px"
+>
+🌸
+</div>
+
+<div
+    class="decor flower"
+    style="top:80px;right:40px"
+>
+🌺
+</div>
+
+
+<div
+    class="decor buffet"
+    style="
+        top:20px;
+        left:50%;
+        transform:translateX(-50%)
+    "
+>
+BUFFET AREA
+</div>
+
+
+<div
+    class="decor stage"
+    style="
+        top:80px;
+        left:50%;
+        transform:translateX(-50%)
+    "
+>
+EVENT / STAGE AREA
+</div>
+
+
+<div class="entrance">
+MAIN ENTRANCE
+</div>
+
+
+</div>
+
+
+<div class="legend">
+
+<span>
+<i class="legend-table"></i>
+Table
+</span>
+
+<span>
+<i class="legend-chair"></i>
+Chair
+</span>
+
+<span>
+🌸 Decoration
+</span>
+
+</div>
+
+
+<!-- CONFIRM -->
+
+<div class="confirm-area">
+
+<p>
+Review the seating arrangement before sending your booking for approval.
+</p>
+
+<button
+    type="button"
+    id="confirmBtn"
+    class="confirm-btn"
+    disabled
+>
+Confirm Booking & Send for Approval
+</button>
+
+</div>
+
+
+<!-- RESULT -->
+
+<div
+    class="booking-info"
+    id="bookingInfo"
+>
+
+<div class="info">
+<span>User ID</span>
+<strong id="infoUser"></strong>
+</div>
+
+<div class="info">
+<span>Request ID</span>
+<strong id="infoReq"></strong>
+</div>
+
+<div class="info">
+<span>Hall</span>
+<strong id="infoHall"></strong>
+</div>
+
+<div class="info">
+<span>Date & Time</span>
+<strong id="infoDate"></strong>
+</div>
+
+</div>
+
+
+</section>
+
+</main>
+
+
+<!-- =========================
+     POPUP
+========================= -->
+
+<div
+    class="popup"
+    id="popup"
+>
+
+<div class="popup-box">
+
+<div class="popup-icon">
+!
+</div>
+
+<h2 id="popupTitle">
+Invalid Booking
+</h2>
+
+<p id="popupText">
+Please enter valid details.
+</p>
+
+<button
+    class="popup-close"
+    onclick="closePopup()"
+>
+OK
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const nameInput =
+    document.getElementById("customerName");
+
+const phoneInput =
+    document.getElementById("phone");
+
+const tableInput =
+    document.getElementById("tables");
+
+const chairInput =
+    document.getElementById("chairsPerTable");
+
+const hallInput =
+    document.getElementById("hallDimension");
+
+const dayInput =
+    document.getElementById("day");
+
+const monthInput =
+    document.getElementById("month");
+
+const yearInput =
+    document.getElementById("year");
+
+const hourInput =
+    document.getElementById("hour");
+
+const minuteInput =
+    document.getElementById("minute");
+
+const floor =
+    document.getElementById("floor");
+
+const layoutSection =
+    document.getElementById("layoutSection");
+
+const checkBtn =
+    document.getElementById("checkLayoutBtn");
+
+const confirmBtn =
+    document.getElementById("confirmBtn");
+
+const layoutStatus =
+    document.getElementById("layoutStatus");
+
+const message =
+    document.getElementById("message");
+
+const popup =
+    document.getElementById("popup");
+
+const popupTitle =
+    document.getElementById("popupTitle");
+
+const popupText =
+    document.getElementById("popupText");
+
+const bookingInfo =
+    document.getElementById("bookingInfo");
+
+
+let layoutChecked = false;
+
+
+/* =========================
+   MONTHS
+========================= */
+
+const months = [
+
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+
+];
+
+
+/* =========================
+   DEVICE DATE
+========================= */
+
+function getToday(){
+
+    const now = new Date();
+
+    return {
+
+        day:now.getDate(),
+
+        month:now.getMonth(),
+
+        year:now.getFullYear()
+
+    };
+
+}
+
+
+function getLocalDate(){
+
+    const t = getToday();
+
+    return (
+
+        t.year +
+        "-" +
+        String(t.month + 1).padStart(2,"0") +
+        "-" +
+        String(t.day).padStart(2,"0")
+
+    );
+
+}
+
+
+/* =========================
+   CREATE DATE
+========================= */
+
+function createDateSelectors(){
+
+    const today =
+        getToday();
+
+
+    yearInput.innerHTML = "";
+
+    monthInput.innerHTML = "";
+
+    dayInput.innerHTML = "";
+
+
+    /* YEARS */
+
+    for(
+        let y=today.year;
+        y<=today.year+5;
+        y++
+    ){
+
+        const o =
+            document.createElement("option");
+
+        o.value = y;
+
+        o.textContent = y;
+
+        yearInput.appendChild(o);
+
+    }
+
+
+    /* MONTHS */
+
+    for(
+        let m=0;
+        m<12;
+        m++
+    ){
+
+        const o =
+            document.createElement("option");
+
+        o.value = m;
+
+        o.textContent = months[m];
+
+        monthInput.appendChild(o);
+
+    }
+
+
+    yearInput.value =
+        today.year;
+
+    monthInput.value =
+        today.month;
+
+
+    updateDays();
+
+
+    dayInput.value =
+        today.day;
+
+}
+
+
+/* =========================
+   UPDATE DAYS
+========================= */
+
+function updateDays(){
+
+    const today =
+        getToday();
+
+    const year =
+        Number(yearInput.value);
+
+    const month =
+        Number(monthInput.value);
+
+
+    const days =
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
+
+
+    const oldDay =
+        Number(dayInput.value);
+
+
+    dayInput.innerHTML = "";
+
+
+    let minimumDay = 1;
+
+
+    if(
+        year === today.year &&
+        month === today.month
+    ){
+
+        minimumDay =
+            today.day;
+
+    }
+
+
+    for(
+        let d=1;
+        d<=days;
+        d++
+    ){
+
+        const option =
+            document.createElement("option");
+
+        option.value =
+            d;
+
+        option.textContent =
+            String(d).padStart(2,"0");
+
+        if(
+            d < minimumDay
+        ){
+
+            option.disabled =
+                true;
+
+        }
+
+        dayInput.appendChild(option);
+
+    }
+
+
+    if(
+        oldDay >= minimumDay &&
+        oldDay <= days
+    ){
+
+        dayInput.value =
+            oldDay;
+
+    }
+
+    else{
+
+        dayInput.value =
+            minimumDay;
+
+    }
+
+
+    updateMonths();
+
+}
+
+
+/* =========================
+   UPDATE MONTHS
+========================= */
+
+function updateMonths(){
+
+    const today =
+        getToday();
+
+    const year =
+        Number(yearInput.value);
+
+
+    Array.from(
+        monthInput.options
+    ).forEach(
+        option => {
+
+            const month =
+                Number(option.value);
+
+            option.disabled =
+                year === today.year &&
+                month < today.month;
+
+        }
+    );
+
+}
+
+
+/* =========================
+   DATE STRING
+========================= */
+
+function getSelectedDate(){
+
+    return (
+
+        yearInput.value +
+        "-" +
+        String(
+            Number(monthInput.value)+1
+        ).padStart(2,"0") +
+        "-" +
+        String(
+            Number(dayInput.value)
+        ).padStart(2,"0")
+
+    );
+
+}
+
+
+/* =========================
+   HOURS
+========================= */
+
+function createHours(){
+
+    hourInput.innerHTML = "";
+
+
+    for(
+        let h=0;
+        h<=23;
+        h++
+    ){
+
+        const o =
+            document.createElement("option");
+
+        o.value =
+            String(h).padStart(2,"0");
+
+        o.textContent =
+            String(h).padStart(2,"0");
+
+        hourInput.appendChild(o);
+
+    }
+
+}
+
+
+/* =========================
+   MINUTES
+========================= */
+
+function createMinutes(){
+
+    minuteInput.innerHTML = "";
+
+
+    for(
+        let m=0;
+        m<=59;
+        m++
+    ){
+
+        const o =
+            document.createElement("option");
+
+        o.value =
+            String(m).padStart(2,"0");
+
+        o.textContent =
+            String(m).padStart(2,"0");
+
+        minuteInput.appendChild(o);
+
+    }
+
+}
+
+
+/* =========================
+   CURRENT DEVICE TIME
+========================= */
+
+function getLocalHour(){
+
+    return new Date().getHours();
+
+}
+
+
+function getLocalMinute(){
+
+    return new Date().getMinutes();
+
+}
+
+
+/* =========================
+   TIME RESTRICTION
+========================= */
+
+function updateTimeOptions(){
+
+    const selectedDate =
+        getSelectedDate();
+
+    const today =
+        getLocalDate();
+
+    const currentHour =
+        getLocalHour();
+
+    const currentMinute =
+        getLocalMinute();
+
+
+    Array.from(
+        hourInput.options
+    ).forEach(
+        option => {
+
+            const h =
+                Number(option.value);
+
+            option.disabled =
+                selectedDate === today &&
+                h < currentHour;
+
+        }
+    );
+
+
+    Array.from(
+        minuteInput.options
+    ).forEach(
+        option => {
+
+            const m =
+                Number(option.value);
+
+            const h =
+                Number(hourInput.value);
+
+
+            option.disabled =
+                selectedDate === today &&
+                (
+                    h < currentHour ||
+                    (
+                        h === currentHour &&
+                        m < currentMinute
+                    )
+                );
+
+        }
+    );
+
+
+    if(
+        selectedDate === today
+    ){
+
+        if(
+            Number(hourInput.value) <
+            currentHour
+        ){
+
+            hourInput.value =
+                String(currentHour)
+                .padStart(2,"0");
+
+        }
+
+
+        if(
+            Number(hourInput.value) ===
+            currentHour &&
+            Number(minuteInput.value) <
+            currentMinute
+        ){
+
+            minuteInput.value =
+                String(currentMinute)
+                .padStart(2,"0");
+
+        }
+
+    }
+
+}
+
+
+/* =========================
+   VALIDATE TIME
+========================= */
+
+function validateTime(){
+
+    const date =
+        getSelectedDate();
+
+    const today =
+        getLocalDate();
+
+    const h =
+        Number(hourInput.value);
+
+    const m =
+        Number(minuteInput.value);
+
+    const currentH =
+        getLocalHour();
+
+    const currentM =
+        getLocalMinute();
+
+
+    if(
+        date < today
+    ){
+
+        showPopup(
+            "Past Date Not Allowed",
+            "Please select today or a future date."
+        );
+
+        return false;
+
+    }
+
+
+    if(
+        date === today &&
+        (
+            h < currentH ||
+            (
+                h === currentH &&
+                m < currentM
+            )
+        )
+    ){
+
+        showPopup(
+            "Past Time Not Allowed",
+            "Please select a time from the current local device time onward."
+        );
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =========================
+   POPUP
+========================= */
+
+function showPopup(
+    title,
+    text
+){
+
+    popupTitle.textContent =
+        title;
+
+    popupText.textContent =
+        text;
+
+    popup.classList.add("show");
+
+}
+
+
+function closePopup(){
+
+    popup.classList.remove("show");
+
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+function showError(text){
+
+    message.className =
+        "message show error";
+
+    message.textContent =
+        text;
+
+}
+
+
+function showSuccess(text){
+
+    message.className =
+        "message show success";
+
+    message.textContent =
+        text;
+
+}
+
+
+/* =========================
+   INVALIDATE
+========================= */
+
+function invalidateLayout(){
+
+    layoutChecked =
+        false;
+
+    confirmBtn.disabled =
+        true;
+
+    layoutStatus.textContent =
+        "Layout needs to be checked again.";
+
+    layoutStatus.style.color =
+        "#df6b6b";
+
+}
+
+
+/* =========================
+   PHONE
+========================= */
+
+phoneInput.addEventListener(
+    "input",
+    function(){
+
+        this.value =
+            this.value
+                .replace(/\D/g,"")
+                .slice(0,10);
+
+        invalidateLayout();
+
+    }
+);
+
+
+/* =========================
+   TABLE LIMIT
+========================= */
+
+tableInput.addEventListener(
+    "input",
+    function(){
+
+        if(
+            Number(this.value) > 50
+        ){
+
+            this.value = 50;
+
+        }
+
+        invalidateLayout();
+
+    }
+);
+
+
+/* =========================
+   CHAIR LIMIT
+========================= */
+
+chairInput.addEventListener(
+    "input",
+    function(){
+
+        if(
+            Number(this.value) > 50
+        ){
+
+            this.value = 50;
+
+        }
+
+        invalidateLayout();
+
+    }
+);
+
+
+/* =========================
+   DATE EVENTS
+========================= */
+
+yearInput.addEventListener(
+    "change",
+    function(){
+
+        updateDays();
+
+        updateTimeOptions();
+
+        invalidateLayout();
+
+    }
+);
+
+
+monthInput.addEventListener(
+    "change",
+    function(){
+
+        updateDays();
+
+        updateTimeOptions();
+
+        invalidateLayout();
+
+    }
+);
+
+
+dayInput.addEventListener(
+    "change",
+    function(){
+
+        updateTimeOptions();
+
+        invalidateLayout();
+
+    }
+);
+
+
+/* =========================
+   TIME EVENTS
+========================= */
+
+hourInput.addEventListener(
+    "change",
+    function(){
+
+        updateTimeOptions();
+
+        invalidateLayout();
+
+    }
+);
+
+
+minuteInput.addEventListener(
+    "change",
+    function(){
+
+        invalidateLayout();
+
+    }
+);
+
+
+/* =========================
+   HALL / OPTIONS
+========================= */
+
+hallInput.addEventListener(
+    "change",
+    invalidateLayout
+);
+
+
+document
+    .querySelectorAll(
+        'input[name="tableShape"],input[name="tableDesign"]'
+    )
+    .forEach(
+        input => {
+
+            input.addEventListener(
+                "change",
+                invalidateLayout
+            );
+
+        }
+    );
+
+
+/* =========================
+   HALL CAPACITY
+========================= */
+
+function getHallCapacity(){
+
+    if(
+        hallInput.value === "600x400"
+    )
+        return 12;
+
+    if(
+        hallInput.value === "800x600"
+    )
+        return 24;
+
+    return 40;
+
+}
+
+
+/* =========================
+   CHAIR CAPACITY
+========================= */
+
+function getChairLimit(){
+
+    const shape =
+        document.querySelector(
+            'input[name="tableShape"]:checked'
+        ).value;
+
+
+    if(
+        shape === "Square"
+    )
+        return 8;
+
+
+    if(
+        shape === "Round"
+    )
+        return 12;
+
+
+    return 14;
+
+}
+
+
+/* =========================
+   SHAPE
+========================= */
+
+function getShape(){
+
+    return document.querySelector(
+        'input[name="tableShape"]:checked'
+    ).value;
+
+}
+
+
+/* =========================
+   DESIGN
+========================= */
+
+function getDesign(){
+
+    return document.querySelector(
+        'input[name="tableDesign"]:checked'
+    ).value;
+
+}
+
+
+/* =========================
+   CREATE LAYOUT
+========================= */
+
+function createLayout(){
+
+    const tables =
+        Number(tableInput.value);
+
+    const chairs =
+        Number(chairInput.value);
+
+
+    document
+        .querySelectorAll(".table-group")
+        .forEach(
+            x => x.remove()
+        );
+
+
+    const width =
+        floor.clientWidth;
+
+    const height =
+        floor.clientHeight;
+
+
+    let columns;
+
+
+    if(tables <= 3)
+        columns = tables;
+
+    else if(tables <= 8)
+        columns = 4;
+
+    else if(tables <= 15)
+        columns = 5;
+
+    else
+        columns = 6;
+
+
+    const rows =
+        Math.ceil(
+            tables / columns
+        );
+
+
+    const cellW =
+        width / columns;
+
+
+    const cellH =
+        (height - 120) / rows;
+
+
+    const shape =
+        getShape().toLowerCase();
+
+    const design =
+        getDesign();
+
+
+    for(
+        let i=0;
+        i<tables;
+        i++
+    ){
+
+        const group =
+            document.createElement("div");
+
+        group.className =
+            "table-group";
+
+
+        const col =
+            i % columns;
+
+        const row =
+            Math.floor(i / columns);
+
+
+        const x =
+            col * cellW +
+            (cellW - 110)/2;
+
+
+        const y =
+            row * cellH +
+            115 +
+            (cellH - 110)/2;
+
+
+        group.style.left =
+            x + "px";
+
+        group.style.top =
+            y + "px";
+
+
+        /* TABLE */
+
+        const table =
+            document.createElement("div");
+
+        table.className =
+            "table " + shape;
+
+
+        if(
+            design === "Luxury"
+        ){
+
+            table.style.background =
+                "linear-gradient(145deg,#d7a94d,#70491d)";
+
+            table.style.borderColor =
+                "#d9b15d";
+
+        }
+
+
+        if(
+            design === "Modern"
+        ){
+
+            table.style.background =
+                "linear-gradient(145deg,#607080,#202d3a)";
+
+            table.style.borderColor =
+                "#8495a5";
+
+        }
+
+
+        group.appendChild(table);
+
+
+        /* TABLE NUMBER */
+
+        const number =
+            document.createElement("div");
+
+        number.className =
+            "table-number";
+
+        number.textContent =
+            "T" +
+            String(i+1)
+                .padStart(2,"0");
+
+        group.appendChild(number);
+
+
+        /* CHAIRS */
+
+        const radius =
+            shape === "rectangle"
+                ? 51
+                : 48;
+
+
+        for(
+            let c=0;
+            c<chairs;
+            c++
+        ){
+
+            const angle =
+                (c/chairs) *
+                Math.PI *
+                2;
+
+
+            const chair =
+                document.createElement("div");
+
+            chair.className =
+                "chair";
+
+
+            chair.style.left =
+                (
+                    55 +
+                    radius *
+                    Math.cos(angle) -
+                    7.5
+                ) + "px";
+
+
+            chair.style.top =
+                (
+                    55 +
+                    radius *
+                    Math.sin(angle) -
+                    7.5
+                ) + "px";
+
+
+            group.appendChild(chair);
+
+        }
+
+
+        floor.appendChild(group);
+
+    }
+
+}
+
+
+/* =========================
+   CHECK LAYOUT
+========================= */
+
+checkBtn.addEventListener(
+    "click",
+    function(){
+
+        /* NAME */
+
+        if(
+            nameInput.value.trim().length < 2
+        ){
+
+            showPopup(
+                "Invalid Name",
+                "Please enter a valid customer name."
+            );
+
+            nameInput.focus();
+
+            return;
+
+        }
+
+
+        /* PHONE */
+
+        if(
+            !/^[0-9]{10}$/.test(
+                phoneInput.value
+            )
+        ){
+
+            showPopup(
+                "Invalid Mobile Number",
+                "Mobile number must contain exactly 10 digits."
+            );
+
+            phoneInput.focus();
+
+            return;
+
+        }
+
+
+        /* TABLE */
+
+        const tables =
+            Number(tableInput.value);
+
+
+        if(
+            !Number.isInteger(tables) ||
+            tables < 1 ||
+            tables > 50
+        ){
+
+            showPopup(
+                "Invalid Table Count",
+                "Number of tables must be between 1 and 50."
+            );
+
+            return;
+
+        }
+
+
+        /* CHAIRS */
+
+        const chairs =
+            Number(chairInput.value);
+
+
+        if(
+            !Number.isInteger(chairs) ||
+            chairs < 1 ||
+            chairs > 50
+        ){
+
+            showPopup(
+                "Invalid Chair Count",
+                "Chairs per table must be between 1 and 50."
+            );
+
+            return;
+
+        }
+
+
+        /* TIME */
+
+        if(
+            !validateTime()
+        ){
+
+            return;
+
+        }
+
+
+        /* HALL */
+
+        const capacity =
+            getHallCapacity();
+
+
+        if(
+            tables > capacity
+        ){
+
+            showPopup(
+                "Layout Does Not Fit",
+                `This hall supports a maximum of ${capacity} tables. Please choose a larger hall or reduce the number of tables.`
+            );
+
+            return;
+
+        }
+
+
+        /* CHAIRS */
+
+        const chairLimit =
+            getChairLimit();
+
+
+        if(
+            chairs > chairLimit
+        ){
+
+            showPopup(
+                "Too Many Chairs",
+                `${getShape()} tables support up to ${chairLimit} chairs in this layout.`
+            );
+
+            return;
+
+        }
+
+
+        /* CREATE */
+
+        createLayout();
+
+
+        layoutChecked =
+            true;
+
+
+        confirmBtn.disabled =
+            false;
+
+
+        layoutStatus.textContent =
+            "✓ Layout checked, review your hall before confirming.";
+
+        layoutStatus.style.color =
+            "#55b987";
+
+
+        showSuccess(
+            "Layout generated successfully. Please review the hall below."
+        );
+
+
+        /* AUTO SCROLL */
+
+        setTimeout(
+            function(){
+
+                layoutSection.scrollIntoView({
+                    behavior:"smooth",
+                    block:"start"
+                });
+
+            },
+            150
+        );
+
+    }
+);
+
+
+/* =========================
+   CONFIRM BOOKING
+========================= */
+
+confirmBtn.addEventListener(
+    "click",
+    async function(){
+
+        if(
+            !layoutChecked
+        ){
+
+            showPopup(
+                "Check Layout First",
+                "Please check and review your seating layout before confirming the booking."
+            );
+
+            return;
+
+        }
+
+
+        if(
+            !validateTime()
+        ){
+
+            return;
+
+        }
+
+
+        const bookingData = {
+
+            customerName:
+                nameInput.value.trim(),
+
+            phone:
+                phoneInput.value,
+
+            dateOfBirth:
+                document.getElementById("dateOfBirth").value,
+
+            hallDimension:
+                hallInput.value,
+
+            tables:
+                Number(tableInput.value),
+
+            chairsPerTable:
+                Number(chairInput.value),
+
+            eventDate:
+                getSelectedDate(),
+
+            eventTime:
+                `${hourInput.value}:${minuteInput.value}`,
+
+            tableShape:
+                getShape(),
+
+            tableDesign:
+                getDesign()
+
+        };
+
+
+        confirmBtn.disabled =
+            true;
+
+        confirmBtn.textContent =
+            "Sending for Admin Approval...";
+
+
+        try{
+
+            const response =
+                await fetch(
+                    "/api/book-hall",
+                    {
+
+                        method:"POST",
+
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(
+                                bookingData
+                            )
+
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if(
+                !result.success
+            ){
+
+                showPopup(
+                    "Booking Failed",
+                    result.message ||
+                    "Unable to submit booking."
+                );
+
+                confirmBtn.disabled =
+                    false;
+
+                confirmBtn.textContent =
+                    "Confirm Booking & Send for Approval";
+
+                return;
+
+            }
+
+
+            const booking =
+                result.booking;
+
+
+            document.getElementById(
+                "infoUser"
+            ).textContent =
+                booking.userId;
+
+
+            document.getElementById(
+                "infoReq"
+            ).textContent =
+                booking.reqid;
+
+
+            document.getElementById(
+                "infoHall"
+            ).textContent =
+                booking.hallDimension;
+
+
+            document.getElementById(
+                "infoDate"
+            ).textContent =
+                `${booking.eventDate} • ${booking.eventTime}`;
+
+
+            bookingInfo.classList.add(
+                "show"
+            );
+
+
+            showSuccess(
+                "Booking submitted successfully and sent to the administrator for approval."
+            );
+
+
+            confirmBtn.textContent =
+                "✓ Booking Sent for Admin Approval";
+
+
+            layoutStatus.textContent =
+                "✓ Booking submitted — waiting for administrator approval.";
+
+            layoutStatus.style.color =
+                "#55b987";
+
+
+            bookingInfo.scrollIntoView({
+                behavior:"smooth",
+                block:"center"
+            });
+
+        }
+
+        catch(error){
+
+            console.error(error);
+
+            showPopup(
+                "Server Error",
+                "Could not connect to the Node.js server. Make sure server.js is running."
+            );
+
+
+            confirmBtn.disabled =
+                false;
+
+            confirmBtn.textContent =
+                "Confirm Booking & Send for Approval";
+
+        }
+
+    }
+);
+
+
+/* =========================
+   REAL-TIME CLOCK
+========================= */
+
+setInterval(
+    function(){
+
+        updateTimeOptions();
+
+        updateDays();
+
+    },
+    30000
+);
+
+
+/* =========================
+   POPUP OUTSIDE CLICK
+========================= */
+
+popup.addEventListener(
+    "click",
+    function(e){
+
+        if(
+            e.target === popup
+        ){
+
+            closePopup();
+
+        }
+
+    }
+);
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+createDateSelectors();
+
+createHours();
+
+createMinutes();
+
+
+hourInput.value =
+    String(
+        getLocalHour()
+    ).padStart(2,"0");
+
+
+minuteInput.value =
+    String(
+        getLocalMinute()
+    ).padStart(2,"0");
+
+
+updateTimeOptions();
+
+createLayout();
+
+</script>
+
+</body>
+
+</html>

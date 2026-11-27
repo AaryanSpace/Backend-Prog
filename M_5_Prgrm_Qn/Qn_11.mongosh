@@ -1,0 +1,29 @@
+// Question 11 (10 Marks): Develop a MongoDB CRUD exercise for the
+// collegeDB.students collection. Insert three students, read all students,
+// find CSE students, find students with marks >= 80, update one student's
+// marks, and delete one student. Write all required mongosh commands and
+// briefly explain each operation.
+use collegeDB
+
+// Create three student documents.
+db.students.insertMany([
+  { studentId: 'S101', name: 'Asha', course: 'CSE', marks: 85 },
+  { studentId: 'S102', name: 'Ravi', course: 'ECE', marks: 76 },
+  { studentId: 'S103', name: 'Meena', course: 'CSE', marks: 91 }
+]);
+
+// Read all documents in the collection.
+db.students.find();
+
+// Filter documents by course and by a minimum mark.
+db.students.find({ course: 'CSE' });
+db.students.find({ marks: { $gte: 80 } });
+
+// Update the selected student's marks.
+db.students.updateOne(
+  { studentId: 'S101' },
+  { $set: { marks: 92 } }
+);
+
+// Delete the selected student.
+db.students.deleteOne({ studentId: 'S103' });

@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Booking | VenueVista</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#08111f;
+    color:#f5f7fa;
+    min-height:100vh;
+}
+
+/* HEADER */
+
+header{
+    height:105px;
+    padding:22px 5%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid #69552c;
+    background:#0d1a2c;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.logo{
+    width:56px;
+    height:56px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#d8ad55;
+    color:#101820;
+    font-size:25px;
+    font-weight:bold;
+    border-radius:15px;
+}
+
+.brand-name{
+    font-size:28px;
+    font-weight:bold;
+}
+
+.brand-subtitle{
+    margin-top:4px;
+    font-size:13px;
+    letter-spacing:1px;
+    color:#9eabbc;
+}
+
+.home-btn{
+    text-decoration:none;
+    color:#e6c26a;
+    border:1px solid #806a36;
+    padding:13px 23px;
+    border-radius:10px;
+    font-weight:bold;
+    transition:.25s;
+}
+
+.home-btn:hover{
+    background:#d8ad55;
+    color:#101820;
+}
+
+/* MAIN */
+
+main{
+    width:90%;
+    max-width:1100px;
+    margin:55px auto;
+}
+
+/* HERO */
+
+.hero{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.hero h1{
+    margin:0;
+    color:#e8c46c;
+    font-size:52px;
+}
+
+.hero p{
+    color:#9eabbc;
+    font-size:18px;
+    margin-top:12px;
+}
+
+/* SEARCH CARD */
+
+.search-card{
+    background:#101c2c;
+    border:1px solid #5b4b2d;
+    border-radius:20px;
+    padding:35px;
+    max-width:750px;
+    margin:auto;
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+
+.search-card h2{
+    margin-top:0;
+    color:#e8c46c;
+}
+
+.search-card p{
+    color:#9eabbc;
+}
+
+.search-row{
+    display:flex;
+    gap:15px;
+    margin-top:25px;
+}
+
+.search-row input{
+    flex:1;
+    padding:16px 18px;
+    background:#091321;
+    color:white;
+    border:1px solid #455365;
+    border-radius:10px;
+    font-size:16px;
+    outline:none;
+}
+
+.search-row input:focus{
+    border-color:#d8ad55;
+    box-shadow:0 0 0 3px rgba(216,173,85,.12);
+}
+
+.search-btn{
+    padding:16px 25px;
+    border:0;
+    border-radius:10px;
+    background:#d8ad55;
+    color:#101820;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.search-btn:hover{
+    background:#edcf82;
+}
+
+/* MESSAGE */
+
+.message{
+    display:none;
+    margin:25px auto;
+    max-width:750px;
+    padding:18px;
+    border-radius:10px;
+    text-align:center;
+    background:#251d20;
+    border:1px solid #75444b;
+    color:#ffb7bd;
+}
+
+/* RESULTS */
+
+.results{
+    margin-top:45px;
+}
+
+/* CUSTOMER HEADER */
+
+.customer-card{
+    background:#101c2c;
+    border:1px solid #5b4b2d;
+    border-radius:18px;
+    padding:25px 30px;
+    margin-bottom:25px;
+}
+
+.customer-card h2{
+    margin:0 0 8px;
+    color:#e8c46c;
+}
+
+.customer-card p{
+    margin:5px 0;
+    color:#aeb9c8;
+}
+
+/* BOOKING CARD */
+
+.booking{
+    background:#101c2c;
+    border:1px solid #364558;
+    border-radius:18px;
+    margin-bottom:25px;
+    overflow:hidden;
+    box-shadow:0 12px 35px rgba(0,0,0,.2);
+}
+
+.booking-top{
+    padding:22px 28px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid #354253;
+}
+
+.booking-id{
+    color:#e8c46c;
+    font-weight:bold;
+    font-size:19px;
+}
+
+/* STATUS */
+
+.status{
+    padding:8px 16px;
+    border-radius:30px;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.pending{
+    background:#3b321f;
+    color:#e7c56e;
+}
+
+.approved{
+    background:#17352b;
+    color:#79ddb2;
+}
+
+.rejected{
+    background:#3a2024;
+    color:#ff9da7;
+}
+
+/* DETAILS */
+
+.details{
+    padding:28px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.detail{
+    background:#0b1625;
+    border:1px solid #273649;
+    padding:17px;
+    border-radius:10px;
+}
+
+.detail-label{
+    color:#8290a1;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.7px;
+    margin-bottom:7px;
+}
+
+.detail-value{
+    color:#f2f4f7;
+    font-size:16px;
+    font-weight:bold;
+}
+
+/* REMARKS */
+
+.remarks{
+    margin:0 28px 28px;
+    padding:20px;
+    border-radius:12px;
+    background:#172438;
+    border-left:4px solid #d8ad55;
+}
+
+.remarks-title{
+    color:#e8c46c;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.remarks-text{
+    color:#b9c4d2;
+}
+
+/* EMPTY */
+
+.empty{
+    text-align:center;
+    padding:60px 20px;
+    background:#101c2c;
+    border:1px solid #364558;
+    border-radius:18px;
+}
+
+.empty h2{
+    color:#e8c46c;
+}
+
+.empty p{
+    color:#9eabbc;
+}
+
+/* FOOTER */
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#687789;
+    font-size:13px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:800px){
+
+    header{
+        padding:18px 25px;
+    }
+
+    .brand-name{
+        font-size:22px;
+    }
+
+    .brand-subtitle{
+        display:none;
+    }
+
+    .hero h1{
+        font-size:38px;
+    }
+
+    .search-row{
+        flex-direction:column;
+    }
+
+    .details{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+@media(max-width:550px){
+
+    header{
+        height:auto;
+    }
+
+    .home-btn{
+        padding:10px 14px;
+        font-size:13px;
+    }
+
+    main{
+        width:94%;
+    }
+
+    .details{
+        grid-template-columns:1fr;
+    }
+
+    .booking-top{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+    <div class="brand">
+
+        <div class="logo">V</div>
+
+        <div>
+            <div class="brand-name">VenueVista</div>
+
+            <div class="brand-subtitle">
+                Smart Venue Booking & Layout Management
+            </div>
+        </div>
+
+    </div>
+
+    <a href="/" class="home-btn">
+        Book a Venue
+    </a>
+
+</header>
+
+
+<!-- MAIN -->
+
+<main>
+
+    <section class="hero">
+
+        <h1>My Booking</h1>
+
+        <p>
+            Check your booking request, layout and approval status.
+        </p>
+
+    </section>
+
+
+    <!-- SEARCH -->
+
+    <section class="search-card">
+
+        <h2>Find Your Booking</h2>
+
+        <p>
+            Enter your registered mobile number.
+        </p>
+
+        <div class="search-row">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Enter User ID or mobile number"
+            >
+
+            <button
+                class="search-btn"
+                onclick="findBooking()"
+            >
+                Check Booking
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- MESSAGE -->
+
+    <div
+        class="message"
+        id="message"
+    ></div>
+
+
+    <!-- RESULTS -->
+
+    <section
+        class="results"
+        id="results"
+    ></section>
+
+</main>
+
+
+<footer>
+    © 2026 VenueVista · Smart Venue Booking System
+</footer>
+
+
+<script>
+
+/* FIND ELEMENTS */
+
+const searchInput = document.getElementById("searchInput");
+const results = document.getElementById("results");
+const message = document.getElementById("message");
+
+
+/* ENTER KEY */
+
+searchInput.addEventListener("keydown", function(event){
+
+    if(event.key === "Enter"){
+        findBooking();
+    }
+
+});
+
+
+/* FIND BOOKING */
+
+async function findBooking(){
+
+    const search = searchInput.value.trim();
+
+    results.innerHTML = "";
+    message.style.display = "none";
+
+    if(!search){
+
+        showMessage("Please enter your User ID or mobile number.");
+
+        return;
+    }
+
+
+    try{
+
+        const response = await fetch("/api/bookings");
+
+        const data = await response.json();
+
+
+        if(!data.success){
+
+            showMessage("Unable to load booking information.");
+
+            return;
+        }
+
+
+        const bookings = data.bookings || [];
+
+
+        /* SEARCH BY USER ID OR MOBILE */
+
+        const found = bookings.filter(function(booking){
+
+            const userId = String(
+                booking.userId || ""
+            ).toLowerCase();
+
+            const mobile = String(
+                booking.phone || ""
+            );
+
+            return (
+                userId === search.toLowerCase() ||
+                mobile === search
+            );
+
+        });
+
+
+        if(found.length === 0){
+
+            results.innerHTML = `
+                <div class="empty">
+
+                    <h2>No Booking Found</h2>
+
+                    <p>
+                        We could not find a booking with
+                        this User ID or mobile number.
+                    </p>
+
+                </div>
+            `;
+
+            return;
+        }
+
+
+        /* SHOW CUSTOMER */
+
+        const customer = found[0];
+
+        results.innerHTML = `
+
+            <div class="customer-card">
+
+                <h2>
+                    Welcome, ${escapeHTML(
+                        customer.customerName || "Customer"
+                    )}
+                </h2>
+
+                <p>
+                    User ID:
+                    <strong>
+                        ${escapeHTML(
+                            customer.userId || "Not available"
+                        )}
+                    </strong>
+                </p>
+
+                <p>
+                    Mobile:
+                    ${escapeHTML(
+                        customer.phone || "-"
+                    )}
+                </p>
+
+            </div>
+
+        `;
+
+
+        /* SHOW BOOKINGS */
+
+        found.forEach(function(booking){
+
+            results.innerHTML += createBookingCard(
+                booking
+            );
+
+        });
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        showMessage(
+            "Unable to connect to the booking server."
+        );
+
+    }
+
+}
+
+
+/* CREATE BOOKING CARD */
+
+function createBookingCard(booking){
+
+    const status =
+        booking.adminApproval ||
+        booking.status ||
+        "Pending";
+
+    const statusClass =
+        status.toLowerCase() === "approved"
+            ? "approved"
+            : status.toLowerCase() === "rejected"
+            ? "rejected"
+            : "pending";
+
+
+    return `
+
+        <div class="booking">
+
+            <div class="booking-top">
+
+                <div class="booking-id">
+
+                    Booking Request #${escapeHTML(
+                        String(booking.reqid || "-")
+                    )}
+
+                </div>
+
+                <div class="status ${statusClass}">
+
+                    ${statusIcon(status)}
+                    ${escapeHTML(status)}
+
+                </div>
+
+            </div>
+
+
+            <div class="details">
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Hall
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHTML(
+                            booking.hallDimension || "-"
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Event Date
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHTML(
+                            booking.eventDate || "-"
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Event Time
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHTML(
+                            booking.eventTime ||
+                            booking.time ||
+                            "-"
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Tables
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHTML(
+                            String(booking.tables || "-")
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Chairs / Table
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHTML(
+                            String(
+                                booking.chairsPerTable || "-"
+                            )
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Table Shape
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHTML(
+                            booking.tableShape || "-"
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Table Design
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHTML(
+                            booking.tableDesign || "-"
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Total Seats
+                    </div>
+
+                    <div class="detail-value">
+
+                        ${escapeHTML(
+                            String(
+                                (Number(booking.tables) || 0) *
+                                (Number(booking.chairsPerTable) || 0)
+                            )
+                        )}
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="remarks">
+
+                <div class="remarks-title">
+                    Booking Update
+                </div>
+
+                <div class="remarks-text">
+
+                    ${escapeHTML(
+                        booking.adminRemarks ||
+                        "Your booking request has been received and is currently under review by our venue team."
+                    )}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* STATUS ICON */
+
+function statusIcon(status){
+
+    const s = status.toLowerCase();
+
+    if(s === "approved")
+        return "✓";
+
+    if(s === "rejected")
+        return "✕";
+
+    return "●";
+
+}
+
+
+/* MESSAGE */
+
+function showMessage(text){
+
+    message.textContent = text;
+
+    message.style.display = "block";
+
+}
+
+
+/* SECURITY */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+</script>
+
+</body>
+</html>

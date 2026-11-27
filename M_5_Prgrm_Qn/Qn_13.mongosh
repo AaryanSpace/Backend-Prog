@@ -1,0 +1,14 @@
+// Question 13 (10 Marks): Analogy-based question: Treat MongoDB as a library
+// system: Server -> Database -> Collection -> Document -> Field is like
+// Library -> Section -> Shelf -> Book -> Information inside the book. Using
+// this analogy, explain the hierarchy and then write commands to select
+// collegeDB, inspect its collections, and display all documents in students.
+// A server is the library, a database is a section, a collection is a shelf,
+// a document is one book, and each field is a piece of information in a book.
+use collegeDB
+
+// List the database's collections (shelves).
+show collections
+
+// Display every student document (book) and its fields (information).
+db.students.find();

@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dining Management System</title>
+
+<style>
+:root{
+    --bg:#07111f;
+    --panel:#0d1b2a;
+    --floor:#eee5d0;
+    --gold:#d6a84f;
+    --gold2:#f0c66a;
+    --table:#8b572a;
+    --chair:#26384a;
+    --text:#f5f1e8;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    padding:30px 20px;
+    font-family:Arial,sans-serif;
+    background:radial-gradient(circle at top,#142b42,#07111f 65%);
+    color:var(--text);
+    text-align:center;
+    min-height:100vh;
+}
+
+/* TITLE */
+
+h1{
+    margin:0;
+    font-size:42px;
+    letter-spacing:1px;
+    color:var(--gold2);
+}
+
+.subtitle{
+    margin:8px 0 25px;
+    color:#b8c2cc;
+    font-size:17px;
+}
+
+
+/* CONTROLS */
+
+.controls{
+    width:min(850px,95%);
+    margin:0 auto 25px;
+    padding:22px;
+
+    display:flex;
+    justify-content:center;
+    gap:25px;
+
+    background:rgba(13,27,42,.95);
+
+    border:1px solid rgba(214,168,79,.35);
+    border-radius:18px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.35);
+}
+
+.control-box{
+    flex:1;
+    max-width:350px;
+}
+
+.control-box h3{
+    margin:0 0 10px;
+    color:var(--gold2);
+    font-size:17px;
+}
+
+
+/* NUMBER INPUT */
+
+.controls input{
+    width:100%;
+    height:52px;
+
+    padding:10px 15px;
+
+    border:1px solid var(--gold);
+    border-radius:10px;
+
+    background:#081522;
+    color:white;
+
+    text-align:center;
+
+    font-size:22px;
+    font-weight:bold;
+
+    outline:none;
+}
+
+
+/* REMOVE NUMBER ARROWS */
+
+.controls input::-webkit-inner-spin-button,
+.controls input::-webkit-outer-spin-button{
+    -webkit-appearance:none;
+    margin:0;
+}
+
+.controls input{
+    -moz-appearance:textfield;
+    appearance:textfield;
+}
+
+.controls input:focus{
+    box-shadow:0 0 0 2px rgba(214,168,79,.25);
+}
+
+
+/* FLOOR */
+
+.restaurant-floor{
+    position:relative;
+
+    width:min(1500px,96vw);
+
+    min-height:65vh;
+
+    margin:0 auto;
+
+    background-color:var(--floor);
+
+    border:8px solid #172536;
+    border-radius:16px;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.45),
+        0 0 0 2px rgba(214,168,79,.5);
+
+    background-image:
+        linear-gradient(rgba(90,70,45,.10) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(90,70,45,.10) 1px,transparent 1px);
+
+    background-size:28px 28px;
+}
+
+
+/* FLOOR TITLE */
+
+.floor-title{
+    position:absolute;
+
+    top:12px;
+    left:20px;
+
+    padding:6px 12px;
+
+    background:rgba(7,17,31,.85);
+    color:var(--gold2);
+
+    border-radius:6px;
+
+    font-size:12px;
+    font-weight:bold;
+    letter-spacing:1px;
+
+    z-index:20;
+}
+
+
+/* TABLE GROUP */
+
+.table-group{
+    position:absolute;
+
+    width:100px;
+    height:100px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+
+/* SQUARE TABLE */
+
+.table{
+    width:66px;
+    height:66px;
+
+    position:absolute;
+
+    background:linear-gradient(145deg,#a66a32,#75461f);
+
+    border:3px solid #4d2b13;
+
+    border-radius:8px;
+
+    box-shadow:
+        inset 0 2px 4px rgba(255,255,255,.18),
+        inset 0 -5px 10px rgba(0,0,0,.25),
+        0 8px 14px rgba(0,0,0,.35);
+
+    z-index:5;
+}
+
+
+/* TABLE INNER BORDER */
+
+.table::after{
+    content:"";
+
+    position:absolute;
+
+    inset:8px;
+
+    border:1px solid rgba(255,210,130,.25);
+
+    border-radius:4px;
+}
+
+
+/* CHAIRS */
+
+.chair{
+    position:absolute;
+
+    width:15px;
+    height:15px;
+
+    background:linear-gradient(145deg,#40566b,#1b2b3b);
+
+    border:1px solid #142231;
+
+    border-radius:4px;
+
+    box-shadow:0 3px 5px rgba(0,0,0,.35);
+
+    z-index:3;
+}
+
+
+/* ENTRANCE */
+
+.entrance{
+    position:absolute;
+
+    bottom:-1px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    padding:9px 35px;
+
+    background:#081522;
+
+    color:var(--gold2);
+
+    border:2px solid var(--gold);
+    border-bottom:0;
+
+    border-radius:10px 10px 0 0;
+
+    font-size:13px;
+    font-weight:bold;
+    letter-spacing:1px;
+
+    z-index:30;
+
+    box-shadow:0 -5px 15px rgba(0,0,0,.2);
+}
+
+
+/* LEGEND */
+
+.legend{
+    width:max-content;
+
+    margin:20px auto 0;
+
+    padding:12px 22px;
+
+    display:flex;
+    gap:25px;
+
+    background:#0d1b2a;
+
+    border:1px solid rgba(214,168,79,.35);
+
+    border-radius:10px;
+
+    color:#e9e2d4;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.3);
+}
+
+.legend span{
+    display:flex;
+    align-items:center;
+    gap:7px;
+}
+
+.legend-box{
+    width:16px;
+    height:16px;
+    border-radius:4px;
+}
+
+.legend-table{
+    background:#8b572a;
+    border:2px solid #4d2b13;
+}
+
+.legend-chair{
+    background:#26384a;
+    border:1px solid #142231;
+}
+
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    body{
+        padding:20px 10px;
+    }
+
+    h1{
+        font-size:28px;
+    }
+
+    .controls{
+        flex-direction:column;
+        gap:15px;
+        padding:18px;
+    }
+
+    .control-box{
+        max-width:none;
+    }
+
+    .restaurant-floor{
+        width:98vw;
+        min-height:70vh;
+    }
+
+    .legend{
+        font-size:13px;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<h1>Dining Management System</h1>
+
+<p class="subtitle">
+Interactive Floor Plan
+</p>
+
+
+<!-- CONTROLS -->
+
+<div class="controls">
+
+    <div class="control-box">
+
+        <h3>Number of Tables</h3>
+
+        <input
+            type="number"
+            id="tableInput"
+            min="1"
+            max="50"
+            value="12"
+            autocomplete="off"
+        >
+
+    </div>
+
+
+    <div class="control-box">
+
+        <h3>Chairs per Table</h3>
+
+        <input
+            type="number"
+            id="chairInput"
+            min="1"
+            max="50"
+            value="8"
+            autocomplete="off"
+        >
+
+    </div>
+
+</div>
+
+
+<!-- FLOOR -->
+
+<div class="restaurant-floor" id="floor">
+
+    <div class="floor-title">
+        DINING FLOOR PLAN
+    </div>
+
+    <div class="entrance">
+        MAIN ENTRANCE
+    </div>
+
+</div>
+
+
+<!-- LEGEND -->
+
+<div class="legend">
+
+    <span>
+        <span class="legend-box legend-table"></span>
+        Table
+    </span>
+
+    <span>
+        <span class="legend-box legend-chair"></span>
+        Chair
+    </span>
+
+</div>
+
+
+<script>
+
+/* GET ELEMENTS */
+
+const tableInput =
+    document.getElementById("tableInput");
+
+const chairInput =
+    document.getElementById("chairInput");
+
+const floor =
+    document.getElementById("floor");
+
+
+/* CREATE FLOOR PLAN */
+
+function createLayout(){
+
+    /* Do nothing while input is empty */
+
+    if(
+        tableInput.value === "" ||
+        chairInput.value === ""
+    ){
+        return;
+    }
+
+
+    let tables =
+        Number(tableInput.value);
+
+    let chairs =
+        Number(chairInput.value);
+
+
+    /* Never allow more than 50 */
+
+    if(tables > 50){
+        tables = 50;
+        tableInput.value = 50;
+    }
+
+    if(chairs > 50){
+        chairs = 50;
+        chairInput.value = 50;
+    }
+
+
+    /* Never allow less than 1 */
+
+    if(tables < 1){
+        tables = 1;
+    }
+
+    if(chairs < 1){
+        chairs = 1;
+    }
+
+
+    /* Remove old tables */
+
+    document
+        .querySelectorAll(".table-group")
+        .forEach(t => t.remove());
+
+
+    /* FLOOR SIZE */
+
+    const floorWidth =
+        floor.clientWidth - 16;
+
+    const floorHeight =
+        Math.max(
+            floor.clientHeight - 16,
+            500
+        );
+
+
+    /* SELECT COLUMNS */
+
+    let columns;
+
+    if(tables <= 4)
+        columns = tables;
+
+    else if(tables <= 9)
+        columns = 3;
+
+    else if(tables <= 16)
+        columns = 4;
+
+    else if(tables <= 25)
+        columns = 5;
+
+    else if(tables <= 36)
+        columns = 6;
+
+    else if(tables <= 45)
+        columns = 8;
+
+    else
+        columns = 10;
+
+
+    /* ROWS */
+
+    const rows =
+        Math.ceil(tables / columns);
+
+
+    /* SPACING */
+
+    const cellWidth =
+        floorWidth / columns;
+
+    const cellHeight =
+        Math.max(
+            floorHeight / rows,
+            105
+        );
+
+
+    /* CREATE TABLES */
+
+    for(let i = 0; i < tables; i++){
+
+        const group =
+            document.createElement("div");
+
+        group.className =
+            "table-group";
+
+
+        /* TABLE POSITION */
+
+        const column =
+            i % columns;
+
+        const row =
+            Math.floor(i / columns);
+
+
+        const x =
+            column * cellWidth +
+            (cellWidth - 100) / 2;
+
+
+        const y =
+            row * cellHeight +
+            (cellHeight - 100) / 2;
+
+
+        group.style.left =
+            x + "px";
+
+        group.style.top =
+            y + "px";
+
+
+        /* TABLE */
+
+        const table =
+            document.createElement("div");
+
+        table.className =
+            "table";
+
+        group.appendChild(table);
+
+
+        /* CHAIRS */
+
+        const radius = 44;
+
+
+        for(let c = 0; c < chairs; c++){
+
+            const angle =
+                (c / chairs) *
+                (2 * Math.PI);
+
+
+            const chair =
+                document.createElement("div");
+
+            chair.className =
+                "chair";
+
+
+            const chairX =
+                50 +
+                radius *
+                Math.cos(angle) -
+                7.5;
+
+
+            const chairY =
+                50 +
+                radius *
+                Math.sin(angle) -
+                7.5;
+
+
+            chair.style.left =
+                chairX + "px";
+
+            chair.style.top =
+                chairY + "px";
+
+
+            group.appendChild(chair);
+        }
+
+
+        /* ADD TO FLOOR */
+
+        floor.appendChild(group);
+    }
+}
+
+
+/* TABLE INPUT */
+
+tableInput.addEventListener(
+    "input",
+    function(){
+
+        if(this.value === "")
+            return;
+
+        if(Number(this.value) > 50)
+            this.value = 50;
+
+        createLayout();
+    }
+);
+
+
+/* CHAIR INPUT */
+
+chairInput.addEventListener(
+    "input",
+    function(){
+
+        if(this.value === "")
+            return;
+
+        if(Number(this.value) > 50)
+            this.value = 50;
+
+        createLayout();
+    }
+);
+
+
+/* VALIDATE WHEN USER LEAVES INPUT */
+
+tableInput.addEventListener(
+    "blur",
+    function(){
+
+        if(
+            this.value === "" ||
+            Number(this.value) < 1
+        ){
+            this.value = 1;
+        }
+
+        if(Number(this.value) > 50){
+            this.value = 50;
+        }
+
+        createLayout();
+    }
+);
+
+
+chairInput.addEventListener(
+    "blur",
+    function(){
+
+        if(
+            this.value === "" ||
+            Number(this.value) < 1
+        ){
+            this.value = 1;
+        }
+
+        if(Number(this.value) > 50){
+            this.value = 50;
+        }
+
+        createLayout();
+    }
+);
+
+
+/* UPDATE WHEN SCREEN RESIZES */
+
+window.addEventListener(
+    "resize",
+    createLayout
+);
+
+
+/* INITIAL FLOOR PLAN */
+
+createLayout();
+
+</script>
+
+</body>
+</html>

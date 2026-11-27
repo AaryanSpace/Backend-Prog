@@ -1,0 +1,15 @@
+// Question 6 (5 Marks): Write mongosh commands to perform the following on
+// collegeDB: (a) select the database, (b) insert three students, (c) display
+// all students, and (d) find students whose marks are at least 80.
+use collegeDB
+
+// Insert three student documents.
+db.students.insertMany([
+  { studentId: 'S101', name: 'Asha', course: 'CSE', marks: 85 },
+  { studentId: 'S102', name: 'Ravi', course: 'ECE', marks: 76 },
+  { studentId: 'S103', name: 'Meena', course: 'CSE', marks: 91 }
+]);
+
+// Read all students, then filter for marks of 80 or more.
+db.students.find();
+db.students.find({ marks: { $gte: 80 } });

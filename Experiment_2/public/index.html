@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>VenueVista Hall Booking</title>
+<style>
+body{font-family:Arial;background:#0d1b2a;color:white;margin:25px}
+h1,h2,label{color:#f2ca72}
+form,.result{background:#142438;padding:20px;border-radius:12px}
+input,select,button{padding:10px;margin:7px;border-radius:5px}
+input,select{width:90%;background:#081522;color:white}
+button{background:#e9c56b;border:0;cursor:pointer}
+#floor{background:#f1ead8;color:#172033;min-height:300px;
+display:grid;grid-template-columns:repeat(4,1fr);gap:15px;
+padding:25px;margin-top:20px}
+.table{background:#875528;color:white;padding:20px;text-align:center}
+#result{color:#55b987}
+</style>
+</head>
+<body>
+
+<h1>VenueVista – Hall Booking</h1>
+<p>Smart Venue Booking and Layout Management</p>
+
+<form id="bookingForm">
+<label>Customer Name</label><br>
+<input id="name" required minlength="2"><br>
+
+<label>Mobile Number</label><br>
+<input id="phone" maxlength="10" required><br>
+
+<label>Hall Dimension</label><br>
+<select id="hall">
+<option value="600x400">600 x 400</option>
+<option value="800x600">800 x 600</option>
+<option value="1000x700">1000 x 700</option>
+</select><br>
+
+<label>Number of Tables</label><br>
+<input type="number" id="tables" min="1" max="50" value="6"><br>
+
+<label>Chairs per Table</label><br>
+<input type="number" id="chairs" min="1" max="14" value="4"><br>
+
+<label>Event Date</label><br>
+<input type="date" id="date" required><br>
+
+<label>Event Time</label><br>
+<input type="time" id="time" required><br>
+
+<label>Table Shape</label><br>
+<select id="shape">
+<option>Square</option>
+<option>Round</option>
+<option>Rectangle</option>
+</select><br>
+
+<label>Table Design</label><br>
+<select id="design">
+<option>Classic</option>
+<option>Luxury</option>
+<option>Modern</option>
+</select><br>
+
+<button type="button" onclick="checkLayout()">Check Layout</button>
+<button type="button" onclick="confirmBooking()">Confirm Booking</button>
+</form>
+
+<h2>Virtual Hall Layout</h2>
+<div id="floor">Your seating layout will appear here.</div>
+<div id="result"></div>
+
+<script>
+let checked=false;
+const $=id=>document.getElementById(id);
+
+function checkLayout(){
+ let n=$("name").value.trim();
+ let p=$("phone").value;
+ let t=+$("tables").value;
+ let c=+$("chairs").value;
+ let d=$("date").value;
+ let time=$("time").value;
+ let capacity={"600x400":12,"800x600":24,"1000x700":40};
+
+ if(n.length<2 || !/^\d{10}$/.test(p) ||
+    !Number.isInteger(t)||t<1||t>50||
+    !Number.isInteger(c)||c<1||c>14||
+    !d||!time){
+   alert("Please enter valid booking details.");
+   return;
+ }
+
+ let selected=new Date(d+"T"+time);
+ if(selected<new Date()){
+   alert("Past date or time is not allowed.");
+   return;
+ }
+
+ if(t>capacity[$("hall").value]){
+   alert("Too many tables for the selected hall.");
+   return;
+ }
+
+ if(c>({Square:8,Round:12,Rectangle:14}[$("shape").value])){
+   alert("Too many chairs for the selected table shape.");
+   return;
+ }
+
+ $("floor").innerHTML="";
+ for(let i=1;i<=t;i++){
+   let table=document.createElement("div");
+   table.className="table";
+   table.textContent="Table "+i+" | "+c+" Chairs";
+   table.style.borderRadius=$("shape").value==="Round"?"50%":"8px";
+   table.style.background=$("design").value==="Luxury"?"#b8783c":
+      $("design").value==="Modern"?"#526579":"#875528";
+   $("floor").appendChild(table);
+ }
+ checked=true;
+ $("result").textContent="Layout generated successfully.";
+}
+
+async function confirmBooking(){
+ if(!checked){
+   alert("Please check the layout first.");
+   return;
+ }
+ const data={
+   customerName:$("name").value.trim(),
+   phone:$("phone").value,
+   hallDimension:$("hall").value,
+   tables:+$("tables").value,
+   chairsPerTable:+$("chairs").value,
+   eventDate:$("date").value,
+   eventTime:$("time").value,
+   tableShape:$("shape").value,
+   tableDesign:$("design").value
+ };
+
+ try{
+   const response=await fetch("/api/book-hall",{
+     method:"POST",
+     headers:{"Content-Type":"application/json"},
+     body:JSON.stringify(data)
+   });
+   const result=await response.json();
+   if(!response.ok||!result.success)
+     throw new Error(result.message||"Booking failed");
+
+   $("result").textContent=
+     "Booking successful! Customer ID: "+result.booking.userId+
+     " | Request ID: "+result.booking.reqid;
+ }catch(error){
+   alert(error.message||"Server connection failed.");
+ }
+}
+</script>
+</body>
+</html>

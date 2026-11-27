@@ -1,0 +1,18 @@
+{
+  "name": "venuevista-experiment-3",
+  "version": "1.0.0",
+  "description": "VenueVista Experiment 3 using Experiment 2 database with Express Router, CRUD and alter operations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

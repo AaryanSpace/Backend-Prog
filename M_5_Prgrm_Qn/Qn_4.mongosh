@@ -1,0 +1,8 @@
+// Question 4 (2 Marks): Write one MongoDB command to insert a single student
+// document into the students collection.
+db.students.insertOne({
+  studentId: 'S101',
+  name: 'Asha',
+  course: 'CSE',
+  marks: 85
+});

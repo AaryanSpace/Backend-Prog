@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,initial-scale=1">
+
+<title>VenueVista | Administration</title>
+
+<style>
+
+:root{
+    --navy:#07111f;
+    --navy2:#0d1b2a;
+    --gold:#d6a84f;
+    --gold2:#f2ca72;
+    --green:#55b987;
+    --red:#df6b6b;
+    --muted:#9daaba;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+
+    margin:0;
+
+    font-family:Arial,sans-serif;
+
+    background:
+        radial-gradient(
+            circle at top,
+            #17304a,
+            #07111f 65%
+        );
+
+    color:white;
+
+    min-height:100vh;
+}
+
+
+/* HEADER */
+
+header{
+
+    padding:20px 5%;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:
+        1px solid
+        rgba(214,168,79,.25);
+}
+
+.logo{
+
+    width:42px;
+    height:42px;
+
+    display:grid;
+    place-items:center;
+
+    background:var(--gold);
+
+    color:var(--navy);
+
+    border-radius:10px;
+
+    font-weight:bold;
+}
+
+.brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+.brand h1{
+
+    margin:0;
+}
+
+.brand span{
+
+    color:var(--muted);
+
+    font-size:11px;
+}
+
+.home{
+
+    color:var(--gold2);
+
+    text-decoration:none;
+
+    border:
+        1px solid
+        rgba(214,168,79,.4);
+
+    padding:10px 16px;
+
+    border-radius:8px;
+}
+
+
+/* MAIN */
+
+main{
+
+    width:92%;
+
+    max-width:1500px;
+
+    margin:35px auto;
+}
+
+
+/* TITLE */
+
+.title h2{
+
+    margin:0;
+
+    font-size:38px;
+
+    color:var(--gold2);
+}
+
+.title p{
+
+    color:var(--muted);
+}
+
+
+/* STATS */
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:15px;
+
+    margin:25px 0;
+}
+
+.stat{
+
+    background:
+        rgba(13,27,42,.95);
+
+    border:
+        1px solid
+        rgba(214,168,79,.25);
+
+    border-radius:12px;
+
+    padding:20px;
+}
+
+.stat span{
+
+    display:block;
+
+    color:var(--muted);
+
+    font-size:12px;
+}
+
+.stat strong{
+
+    display:block;
+
+    margin-top:8px;
+
+    font-size:30px;
+
+    color:var(--gold2);
+}
+
+
+/* TABLE */
+
+.table-box{
+
+    background:
+        rgba(13,27,42,.96);
+
+    border:
+        1px solid
+        rgba(214,168,79,.3);
+
+    border-radius:15px;
+
+    overflow:auto;
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    min-width:1000px;
+}
+
+th{
+
+    text-align:left;
+
+    padding:15px;
+
+    color:var(--gold2);
+
+    background:#101f30;
+
+    font-size:12px;
+}
+
+td{
+
+    padding:14px 15px;
+
+    border-top:
+        1px solid
+        #263646;
+
+    color:#d8e0e7;
+
+    font-size:13px;
+}
+
+tr:hover{
+
+    background:
+        rgba(214,168,79,.05);
+}
+
+
+/* STATUS */
+
+.status{
+
+    display:inline-block;
+
+    padding:6px 10px;
+
+    border-radius:20px;
+
+    font-size:11px;
+
+    font-weight:bold;
+}
+
+.pending{
+
+    background:
+        rgba(214,168,79,.15);
+
+    color:var(--gold2);
+}
+
+.approved{
+
+    background:
+        rgba(85,185,135,.15);
+
+    color:#7be0aa;
+}
+
+.rejected{
+
+    background:
+        rgba(223,107,107,.15);
+
+    color:#ff9999;
+}
+
+
+/* BUTTON */
+
+.review{
+
+    border:0;
+
+    padding:8px 12px;
+
+    border-radius:6px;
+
+    background:var(--gold);
+
+    color:var(--navy);
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+
+/* EMPTY */
+
+.empty{
+
+    text-align:center;
+
+    padding:40px;
+
+    color:var(--muted);
+}
+
+
+/* MODAL */
+
+.modal{
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+        rgba(0,0,0,.75);
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:20px;
+
+    z-index:999;
+}
+
+.modal.show{
+
+    display:flex;
+}
+
+.modal-box{
+
+    width:100%;
+
+    max-width:700px;
+
+    max-height:90vh;
+
+    overflow:auto;
+
+    background:
+        linear-gradient(
+            145deg,
+            #102033,
+            #07111f
+        );
+
+    border:
+        1px solid
+        rgba(214,168,79,.5);
+
+    border-radius:16px;
+
+    padding:25px;
+}
+
+.modal-box h2{
+
+    margin-top:0;
+
+    color:var(--gold2);
+}
+
+
+/* DETAILS */
+
+.details{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:12px;
+
+    margin:20px 0;
+}
+
+.detail{
+
+    padding:13px;
+
+    background:#0b1928;
+
+    border:
+        1px solid
+        #2c3d4f;
+
+    border-radius:8px;
+}
+
+.detail span{
+
+    display:block;
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    margin-bottom:5px;
+}
+
+.detail strong{
+
+    color:white;
+
+}
+
+
+/* REMARKS */
+
+textarea{
+
+    width:100%;
+
+    min-height:100px;
+
+    resize:vertical;
+
+    padding:12px;
+
+    background:#081522;
+
+    color:white;
+
+    border:
+        1px solid
+        #41505f;
+
+    border-radius:8px;
+
+    outline:none;
+}
+
+
+/* DECISION */
+
+.decision{
+
+    display:flex;
+
+    gap:10px;
+
+    margin:15px 0;
+}
+
+.decision button{
+
+    flex:1;
+
+    height:45px;
+
+    border:0;
+
+    border-radius:8px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.approve-btn{
+
+    background:var(--green);
+
+    color:#07111f;
+}
+
+.reject-btn{
+
+    background:var(--red);
+
+    color:white;
+}
+
+.close-btn{
+
+    width:100%;
+
+    height:42px;
+
+    margin-top:10px;
+
+    background:#334354;
+
+    color:white;
+
+    border:0;
+
+    border-radius:8px;
+
+    cursor:pointer;
+}
+
+
+@media(max-width:700px){
+
+    .stats{
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .details{
+
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="brand">
+
+<div class="logo">
+V
+</div>
+
+<div>
+
+<h1>VenueVista Admin</h1>
+
+<span>
+BOOKING APPROVAL SYSTEM
+</span>
+
+</div>
+
+</div>
+
+
+</header>
+
+
+<main>
+
+
+<div class="title">
+
+<h2>
+Booking Administration
+</h2>
+
+<p>
+Review customer layouts and approve or reject booking requests.
+</p>
+
+</div>
+
+
+<!-- STATS -->
+
+<div class="stats">
+
+<div class="stat">
+
+<span>
+Total Bookings
+</span>
+
+<strong id="total">
+0
+</strong>
+
+</div>
+
+
+<div class="stat">
+
+<span>
+Pending
+</span>
+
+<strong id="pending">
+0
+</strong>
+
+</div>
+
+
+<div class="stat">
+
+<span>
+Approved
+</span>
+
+<strong id="approved">
+0
+</strong>
+
+</div>
+
+
+<div class="stat">
+
+<span>
+Rejected
+</span>
+
+<strong id="rejected">
+0
+</strong>
+
+</div>
+
+</div>
+
+
+<!-- TABLE -->
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+Request ID
+</th>
+
+<th>
+User ID
+</th>
+
+<th>
+Customer
+</th>
+
+<th>
+Mobile
+</th>
+
+<th>
+Hall
+</th>
+
+<th>
+Tables
+</th>
+
+<th>
+Chairs
+</th>
+
+<th>
+Date
+</th>
+
+<th>
+Time
+</th>
+
+<th>
+Status
+</th>
+
+<th>
+Action
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="bookingTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+
+</main>
+
+
+<!-- MODAL -->
+
+<div
+    class="modal"
+    id="modal"
+>
+
+<div class="modal-box">
+
+
+<h2>
+Booking Review
+</h2>
+
+
+<div
+    class="details"
+    id="details"
+>
+</div>
+
+
+<label>
+Admin Remarks
+</label>
+
+
+<textarea
+    id="remarks"
+    placeholder="Enter approval remarks..."
+></textarea>
+
+
+<div class="decision">
+
+<button
+    class="approve-btn"
+    onclick="saveDecision('Approved')"
+>
+✓ Approve Booking
+</button>
+
+
+<button
+    class="reject-btn"
+    onclick="saveDecision('Rejected')"
+>
+✕ Reject Booking
+</button>
+
+</div>
+
+
+<button
+    class="close-btn"
+    onclick="closeModal()"
+>
+Close
+</button>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+
+let bookings = [];
+
+let selectedBooking = null;
+
+
+/* =========================
+   LOAD BOOKINGS
+========================= */
+
+async function loadBookings(){
+
+    try{
+
+        const response =
+            await fetch(
+                "/api/bookings"
+            );
+
+
+        const result =
+            await response.json();
+
+
+        bookings =
+            result.bookings || [];
+
+
+        displayBookings();
+
+        updateStats();
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        document.getElementById(
+            "bookingTable"
+        ).innerHTML = `
+
+        <tr>
+        <td colspan="11"
+            class="empty">
+
+        Unable to load bookings.
+        Make sure server.js is running.
+
+        </td>
+        </tr>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================
+   DISPLAY
+========================= */
+
+function displayBookings(){
+
+    const table =
+        document.getElementById(
+            "bookingTable"
+        );
+
+
+    if(
+        bookings.length === 0
+    ){
+
+        table.innerHTML = `
+
+        <tr>
+
+        <td
+            colspan="11"
+            class="empty"
+        >
+            No booking requests yet.
+        </td>
+
+        </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    table.innerHTML =
+        bookings
+        .map(
+            booking => `
+
+            <tr>
+
+            <td>
+                #${booking.reqid}
+            </td>
+
+            <td>
+                U${booking.userId}
+            </td>
+
+            <td>
+                ${booking.customerName}
+            </td>
+
+            <td>
+                ${booking.phone}
+            </td>
+
+            <td>
+                ${booking.hallDimension}
+            </td>
+
+            <td>
+                ${booking.tables}
+            </td>
+
+            <td>
+                ${booking.chairsPerTable}
+            </td>
+
+            <td>
+                ${booking.eventDate}
+            </td>
+
+            <td>
+                ${booking.eventTime}
+            </td>
+
+            <td>
+
+                <span class="status
+                    ${booking.adminApproval.toLowerCase()}">
+
+                    ${booking.adminApproval}
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <button
+                    class="review"
+                    onclick="reviewBooking(${booking.reqid})"
+                >
+                    Review
+                </button>
+
+            </td>
+
+            </tr>
+
+            `
+        )
+        .join("");
+
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+function updateStats(){
+
+    const total =
+        bookings.length;
+
+
+    const pending =
+        bookings.filter(
+            b =>
+                b.adminApproval ===
+                "Pending"
+        ).length;
+
+
+    const approved =
+        bookings.filter(
+            b =>
+                b.adminApproval ===
+                "Approved"
+        ).length;
+
+
+    const rejected =
+        bookings.filter(
+            b =>
+                b.adminApproval ===
+                "Rejected"
+        ).length;
+
+
+    document.getElementById(
+        "total"
+    ).textContent = total;
+
+
+    document.getElementById(
+        "pending"
+    ).textContent = pending;
+
+
+    document.getElementById(
+        "approved"
+    ).textContent = approved;
+
+
+    document.getElementById(
+        "rejected"
+    ).textContent = rejected;
+
+}
+
+
+/* =========================
+   REVIEW
+========================= */
+
+function reviewBooking(id){
+
+    selectedBooking =
+        bookings.find(
+            b =>
+                Number(b.reqid) ===
+                Number(id)
+        );
+
+
+    if(
+        !selectedBooking
+    )
+        return;
+
+
+    const b =
+        selectedBooking;
+
+
+    document.getElementById(
+        "details"
+    ).innerHTML = `
+
+        <div class="detail">
+            <span>Request ID</span>
+            <strong>#${b.reqid}</strong>
+        </div>
+
+        <div class="detail">
+            <span>User ID</span>
+            <strong>U${b.userId}</strong>
+        </div>
+
+        <div class="detail">
+            <span>Customer Name</span>
+            <strong>${b.customerName}</strong>
+        </div>
+
+        <div class="detail">
+            <span>Mobile</span>
+            <strong>${b.phone}</strong>
+        </div>
+
+        <div class="detail">
+            <span>Hall Dimension</span>
+            <strong>${b.hallDimension}</strong>
+        </div>
+
+        <div class="detail">
+            <span>Tables</span>
+            <strong>${b.tables}</strong>
+        </div>
+
+        <div class="detail">
+            <span>Chairs / Table</span>
+            <strong>${b.chairsPerTable}</strong>
+        </div>
+
+        <div class="detail">
+            <span>Event Date</span>
+            <strong>${b.eventDate}</strong>
+        </div>
+
+        <div class="detail">
+            <span>Event Time</span>
+            <strong>${b.eventTime}</strong>
+        </div>
+
+        <div class="detail">
+            <span>Table Shape</span>
+            <strong>${b.tableShape}</strong>
+        </div>
+
+        <div class="detail">
+            <span>Table Design</span>
+            <strong>${b.tableDesign}</strong>
+        </div>
+
+        <div class="detail">
+            <span>Current Status</span>
+            <strong>${b.adminApproval}</strong>
+        </div>
+
+    `;
+
+
+    document.getElementById(
+        "remarks"
+    ).value =
+        b.adminRemarks || "";
+
+
+    document.getElementById(
+        "modal"
+    ).classList.add("show");
+
+}
+
+
+/* =========================
+   SAVE DECISION
+========================= */
+
+async function saveDecision(
+    decision
+){
+
+    if(
+        !selectedBooking
+    )
+        return;
+
+
+    const remarks =
+        document.getElementById(
+            "remarks"
+        ).value;
+
+
+    try{
+
+        const response =
+            await fetch(
+                `/api/bookings/${selectedBooking.reqid}`,
+                {
+
+                    method:"PATCH",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            adminApproval:
+                                decision,
+
+                            adminRemarks:
+                                remarks
+
+                        })
+
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if(
+            result.success
+        ){
+
+            closeModal();
+
+            loadBookings();
+
+        }
+
+        else{
+
+            alert(
+                result.message ||
+                "Unable to update booking."
+            );
+
+        }
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert(
+            "Server connection failed."
+        );
+
+    }
+
+}
+
+
+/* =========================
+   CLOSE
+========================= */
+
+function closeModal(){
+
+    document
+        .getElementById("modal")
+        .classList
+        .remove("show");
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadBookings();
+
+
+/* REFRESH EVERY 10 SECONDS */
+
+setInterval(
+    loadBookings,
+    10000
+);
+
+</script>
+
+</body>
+
+</html>

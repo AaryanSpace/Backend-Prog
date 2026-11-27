@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>VenueVista | Administration</title>
+<style>
+:root{--navy:#07111f;--panel:#101f31;--gold:#d9b85a;--gold2:#f0cf6a;--white:#f4f7fb;--muted:#9eafc3;--green:#55c98b;--red:#df6d6d;--border:rgba(217,184,90,.3)}*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#07111f,#0d1d31);color:var(--white);font-family:Arial,sans-serif}header{padding:25px 6%;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}.brand{display:flex;gap:12px;align-items:center}.logo{width:42px;height:42px;border:1px solid var(--gold);border-radius:10px;display:grid;place-items:center;color:var(--gold2);font-weight:800;font-size:22px}.brand h1{margin:0;color:var(--gold2);font-size:22px}.brand span{font-size:11px;color:var(--muted)}.home{background:var(--gold2);color:#07111f;text-decoration:none;padding:10px 16px;border-radius:8px;font-weight:700}main{width:90%;max-width:1400px;margin:40px auto}.title{text-align:center}.title h2{font-size:38px;color:var(--gold2);margin:0 0 8px}.title p{color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin:30px 0}.stat,.table-box{background:#101f31;border:1px solid var(--border);border-radius:14px}.stat{padding:22px}.stat span{color:var(--muted)}.stat strong{display:block;color:var(--gold2);font-size:34px;margin-top:8px}.toolbar{display:flex;gap:10px;margin-bottom:16px}.toolbar input{flex:1;background:#091625;border:1px solid #354960;color:white;border-radius:8px;padding:13px}.btn{border:0;border-radius:8px;padding:12px 18px;font-weight:700;cursor:pointer}.refresh,.review{background:var(--gold2);color:#07111f}.alter{background:#5f86c9;color:white}.delete{background:#9a474b;color:white}.table-box{overflow:auto}table{width:100%;border-collapse:collapse;min-width:1100px}th,td{padding:15px 12px;text-align:left;border-bottom:1px solid #25374b}th{color:var(--gold2)}td{color:#e8edf4}.status{padding:6px 10px;border-radius:18px;font-size:12px;font-weight:700}.pending{background:#59491f;color:#f0d36d}.approved{background:#173c2a;color:#61d89a}.rejected{background:#492024;color:#ff8585}.action{display:flex;gap:7px}.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);align-items:center;justify-content:center;padding:20px}.modal.show{display:flex}.box{width:min(700px,100%);max-height:90vh;overflow:auto;background:#102136;border:1px solid var(--border);border-radius:14px;padding:25px}.box h2{color:var(--gold2);margin-top:0}.details{display:grid;grid-template-columns:1fr 1fr;gap:10px}.detail{background:#091625;padding:12px;border-radius:8px}.detail span{display:block;color:var(--muted);font-size:11px}.detail strong{display:block;margin-top:5px}.box textarea{width:100%;min-height:90px;margin-top:15px;background:#091625;color:white;border:1px solid #354960;border-radius:8px;padding:12px}.decisions{display:flex;gap:10px;margin-top:15px}.approve{background:var(--green);color:#07111f}.reject{background:var(--red);color:white}.close{background:#344456;color:white}@media(max-width:800px){.stats{grid-template-columns:1fr 1fr}.title h2{font-size:28px}}
+</style></head><body>
+<header><div class="brand"><div class="logo">V</div><div><h1>VenueVista Administration</h1><span>BOOKING APPROVAL SYSTEM</span></div></div><a class="home" href="/">Customer Site</a></header>
+<main><div class="title"><h2>Booking Administration</h2><p>Review, approve, reject, or delete booking requests.</p></div><div class="stats"><div class="stat"><span>Total Bookings</span><strong id="total">0</strong></div><div class="stat"><span>Pending</span><strong id="pending">0</strong></div><div class="stat"><span>Approved</span><strong id="approved">0</strong></div><div class="stat"><span>Rejected</span><strong id="rejected">0</strong></div></div><div class="toolbar"><input id="search" placeholder="Search Customer ID, name, phone or Request ID"><button class="btn refresh" onclick="load()">Refresh</button></div><div class="table-box"><table><thead><tr><th>Request</th><th>Customer ID</th><th>Customer</th><th>Phone</th><th>Date of Birth</th><th>Hall</th><th>Tables</th><th>Seats</th><th>Date & Time</th><th>Status</th><th>Action</th></tr></thead><tbody id="rows"></tbody></table></div></main>
+<div class="modal" id="modal"><div class="box"><h2>Booking Review</h2><div class="details" id="details"></div><textarea id="remarks" placeholder="Admin remarks"></textarea><div class="decisions"><button class="btn approve" onclick="decision('Approved')">Approve</button><button class="btn reject" onclick="decision('Rejected')">Reject</button><button class="btn close" onclick="closeModal()">Close</button></div></div></div>
+<div class="modal" id="alterModal"><div class="box">
+<h2>Alter Booking</h2>
+<p style="color:var(--muted);margin-top:-8px">
+Add a new attribute or request deletion of an existing attribute.
+The original Experiment 2 record is changed only after the Admin approves the alteration.
+</p>
+<div class="details" id="alterBookingDetails"></div>
+
+<div style="margin-top:18px;padding-top:18px;border-top:1px solid #25374b">
+<h3 style="color:var(--gold2);margin:0 0 10px">Add New Attribute</h3>
+<label style="display:block;color:var(--muted);font-size:12px;margin-bottom:6px">New Attribute Name</label>
+<input id="attributeName" placeholder="Example: foodPreference" style="width:100%;background:#091625;color:white;border:1px solid #354960;border-radius:8px;padding:12px">
+<div style="margin-top:14px">
+<label style="display:block;color:var(--muted);font-size:12px;margin-bottom:6px">Attribute Value</label>
+<input id="attributeValue" placeholder="Example: Vegetarian" style="width:100%;background:#091625;color:white;border:1px solid #354960;border-radius:8px;padding:12px">
+</div>
+<div class="decisions">
+<button class="btn approve" onclick="saveAlter()">Add Attribute</button>
+</div>
+</div>
+
+<div style="margin-top:22px;padding-top:18px;border-top:1px solid #25374b">
+<h3 style="color:#ff8585;margin:0 0 10px">Delete Existing Attribute</h3>
+<p style="color:var(--muted);font-size:13px">
+Select an existing field to request its deletion. Customer ID, Request ID and other system fields are protected.
+</p>
+<label style="display:block;color:var(--muted);font-size:12px;margin-bottom:6px">Existing Attribute</label>
+<select id="deleteAttributeName" style="width:100%;background:#091625;color:white;border:1px solid #354960;border-radius:8px;padding:12px">
+<option value="">Select an attribute</option>
+</select>
+<div id="deleteFieldHint" style="color:var(--muted);font-size:12px;margin-top:8px"></div>
+<div class="decisions">
+<button class="btn reject" onclick="deleteAttribute()">Delete Attribute</button>
+<button class="btn close" onclick="closeAlter()">Cancel</button>
+</div>
+</div>
+
+</div></div>
+<script>
+let bookings=[],selected=null,alterSelected=null,alterWorkingBooking=null;
+const $=id=>document.getElementById(id);
+
+function esc(v){
+ return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+async function load(){
+ try{
+  const r=await fetch('/api/bookings');
+  const d=await r.json();
+  bookings=d.bookings||[];
+  render();
+ }catch(e){
+  $('rows').innerHTML='<tr><td colspan="11">Unable to load bookings. Start server.js.</td></tr>';
+ }
+}
+
+function render(){
+ const q=$('search').value.trim().toLowerCase();
+ const list=bookings.filter(b=>!q||[b.userId,b.customerName,b.phone,b.reqid].some(x=>String(x??'').toLowerCase().includes(q)));
+ $('total').textContent=bookings.length;
+ $('pending').textContent=bookings.filter(b=>b.adminApproval==='Pending').length;
+ $('approved').textContent=bookings.filter(b=>b.adminApproval==='Approved').length;
+ $('rejected').textContent=bookings.filter(b=>b.adminApproval==='Rejected').length;
+
+ if(!list.length){
+  $('rows').innerHTML='<tr><td colspan="11">No booking requests found.</td></tr>';
+  return;
+ }
+
+ $('rows').innerHTML=list.map(b=>`<tr>
+ <td>#${esc(b.reqid)}${b.revisionOf?`<br><small>Revision of #${esc(b.revisionOf)}</small>`:''}</td>
+ <td>${esc(b.userId)}</td>
+ <td>${esc(b.customerName)}</td>
+ <td>${esc(b.phone)}</td>
+ <td>${esc(b.dateOfBirth||"Not provided")}</td>
+ <td>${esc(b.hallDimension)}</td>
+ <td>${esc(b.tables)}</td>
+ <td>${Number(b.tables||0)*Number(b.chairsPerTable||0)}</td>
+ <td>${esc(b.eventDate)} ${esc(b.eventTime)}</td>
+ <td><span class="status ${String(b.adminApproval||'Pending').toLowerCase()}">${esc(b.adminApproval||'Pending')}</span></td>
+ <td><div class="action">
+ <button class="btn review" onclick="review(${b.reqid})">Review</button>
+ <button class="btn alter" onclick="openAlter(${b.reqid})">Alter</button>
+ <button class="btn delete" onclick="del(${b.reqid})">Delete</button>
+ </div></td>
+ </tr>`).join('');
+}
+
+function review(id){
+ selected=bookings.find(b=>Number(b.reqid)===Number(id));
+ if(!selected)return;
+
+ $('details').innerHTML=`
+ <div class="detail"><span>Request ID</span><strong>#${esc(selected.reqid)}</strong></div>
+ <div class="detail"><span>Customer ID</span><strong>${esc(selected.userId)}</strong></div>
+ <div class="detail"><span>Customer</span><strong>${esc(selected.customerName)}</strong></div>
+ <div class="detail"><span>Phone</span><strong>${esc(selected.phone)}</strong></div>
+ <div class="detail"><span>Date of Birth</span><strong>${esc(selected.dateOfBirth||"Not provided")}</strong></div>
+ <div class="detail"><span>Hall</span><strong>${esc(selected.hallDimension)}</strong></div>
+ <div class="detail"><span>Tables</span><strong>${esc(selected.tables)}</strong></div>
+ <div class="detail"><span>Chairs/Table</span><strong>${esc(selected.chairsPerTable)}</strong></div>
+ <div class="detail"><span>Date</span><strong>${esc(selected.eventDate)}</strong></div>
+ <div class="detail"><span>Time</span><strong>${esc(selected.eventTime)}</strong></div>
+ <div class="detail"><span>Shape</span><strong>${esc(selected.tableShape)}</strong></div>
+ <div class="detail"><span>Design</span><strong>${esc(selected.tableDesign)}</strong></div>
+ <div class="detail"><span>Status</span><strong>${esc(selected.adminApproval)}</strong></div>`;
+ $('remarks').value=selected.adminRemarks||'';
+ $('modal').classList.add('show');
+}
+
+async function openAlter(id){
+ alterSelected=bookings.find(b=>Number(b.reqid)===Number(id));
+ if(!alterSelected)return;
+
+ alterWorkingBooking={...alterSelected};
+
+ $('alterBookingDetails').innerHTML=`
+ <div class="detail"><span>Request ID</span><strong>#${esc(alterSelected.reqid)}</strong></div>
+ <div class="detail"><span>Customer ID</span><strong>${esc(alterSelected.userId)}</strong></div>
+ <div class="detail"><span>Customer</span><strong>${esc(alterSelected.customerName)}</strong></div>
+ <div class="detail"><span>Date of Birth</span><strong>${esc(alterSelected.dateOfBirth||"Not provided")}</strong></div>`;
+
+ $('attributeName').value='';
+ $('attributeValue').value='';
+
+ try{
+  const r=await fetch(`/api/bookings/${alterSelected.reqid}/alter`);
+  const d=await r.json();
+  if(r.ok&&d.success&&d.booking){
+   alterWorkingBooking={...d.booking};
+  }
+ }catch(e){
+  console.warn("Could not load existing alteration:",e);
+ }
+
+ populateDeleteFields(alterWorkingBooking);
+ $('alterModal').classList.add('show');
+}
+
+function populateDeleteFields(record){
+ const select=$('deleteAttributeName');
+ const hint=$('deleteFieldHint');
+
+ const protectedKeys=new Set([
+  'reqid','userId','customerName','phone',
+  'adminApproval','adminRemarks','bookingState',
+  'revisionOf','supersededBy','createdAt','updatedAt',
+  'alteredFrom','alterationType','alteredAt',
+  'lastAlteredAttribute','deletedAttribute',
+  'attributeDeletion','promotedToExperiment2',
+  'promotedFromExperiment3'
+ ]);
+
+ const fields=Object.keys(record||{})
+  .filter(key=>!protectedKeys.has(key))
+  .sort();
+
+ select.innerHTML='<option value="">Select an attribute</option>'+
+  fields.map(key=>`<option value="${esc(key)}">${esc(key)}</option>`).join('');
+
+ hint.textContent=fields.length
+  ? `${fields.length} deletable field(s) available.`
+  : 'No deletable fields are available for this booking.';
+}
+
+async function saveAlter(){
+ if(!alterSelected)return;
+
+ const attributeName=$('attributeName').value.trim();
+ const attributeValue=$('attributeValue').value.trim();
+
+ if(!attributeName){
+  alert('Please enter the new attribute name.');
+  return;
+ }
+
+ if(!attributeValue){
+  alert('Please enter the attribute value.');
+  return;
+ }
+
+ try{
+  const r=await fetch(`/api/bookings/${alterSelected.reqid}/alter`,{
+   method:'POST',
+   headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({attributeName,attributeValue})
+  });
+
+  const d=await r.json();
+
+  if(!r.ok||!d.success){
+   alert(d.message||'Unable to alter booking.');
+   return;
+  }
+
+  closeAlter();
+  alert(d.message||'New attribute added successfully.');
+  load();
+ }catch(e){
+  alert('Server connection failed.');
+ }
+}
+
+async function deleteAttribute(){
+ if(!alterSelected)return;
+
+ const attributeName=$('deleteAttributeName').value;
+
+ if(!attributeName){
+  alert('Please select an existing attribute to delete.');
+  return;
+ }
+
+ if(!confirm(`Request deletion of the field "${attributeName}" from Booking #${alterSelected.reqid}?`)){
+  return;
+ }
+
+ try{
+  const r=await fetch(`/api/bookings/${alterSelected.reqid}/delete-attribute`,{
+   method:'POST',
+   headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({attributeName})
+  });
+
+  const d=await r.json();
+
+  if(!r.ok||!d.success){
+   alert(d.message||'Unable to delete attribute.');
+   return;
+  }
+
+  closeAlter();
+  alert(d.message||'Attribute deletion requested successfully.');
+  load();
+ }catch(e){
+  alert('Server connection failed.');
+ }
+}
+
+function closeAlter(){
+ $('alterModal').classList.remove('show');
+ alterSelected=null;
+ alterWorkingBooking=null;
+}
+
+async function decision(status){
+ if(!selected)return;
+
+ try{
+  const r=await fetch(`/api/bookings/${selected.reqid}`,{
+   method:'PATCH',
+   headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({
+    adminApproval:status,
+    adminRemarks:$('remarks').value
+   })
+  });
+
+  const d=await r.json();
+
+  if(!r.ok||!d.success){
+   alert(d.message||'Unable to update');
+   return;
+  }
+
+  closeModal();
+  load();
+ }catch(e){
+  alert('Server connection failed.');
+ }
+}
+
+async function del(id){
+ if(!confirm(`Delete booking #${id}?`))return;
+
+ try{
+  const r=await fetch(`/api/bookings/${id}`,{method:'DELETE'});
+  const d=await r.json();
+
+  if(!r.ok||!d.success){
+   alert(d.message||'Unable to delete');
+   return;
+  }
+
+  load();
+ }catch(e){
+  alert('Server connection failed.');
+ }
+}
+
+function closeModal(){
+ $('modal').classList.remove('show');
+}
+
+$('search').addEventListener('input',render);
+load();
+setInterval(load,10000);
+</script></script></body></html>

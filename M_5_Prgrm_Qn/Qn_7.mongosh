@@ -1,0 +1,14 @@
+// Question 7 (5 Marks): Write MongoDB commands to update student S101's
+// marks to 92 and then delete student S103. Also write a command to verify the
+// records before deletion.
+// Update the student's marks.
+db.students.updateOne(
+  { studentId: 'S101' },
+  { $set: { marks: 92 } }
+);
+
+// Check the target document before deleting it.
+db.students.find({ studentId: 'S103' });
+
+// Delete student S103.
+db.students.deleteOne({ studentId: 'S103' });
